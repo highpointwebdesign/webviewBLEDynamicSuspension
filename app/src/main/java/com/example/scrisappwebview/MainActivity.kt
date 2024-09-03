@@ -6,23 +6,48 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import com.example.scrisappwebview.R.id
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Find the WebView in the layout
-        val myWebView: WebView = findViewById(id.webview)
+        val permissions = arrayOf(
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.BLUETOOTH_SCAN
+        )
 
-        // Enable JavaScript (if needed)
+        if (!hasPermissions(permissions)) {
+            ActivityCompat.requestPermissions(this, permissions, 1)
+        }
+
+        val myWebView: WebView = findViewById(R.id.webview)
         val webSettings: WebSettings = myWebView.settings
         webSettings.javaScriptEnabled = true
 
-        // Load the index.html from assets
-        myWebView.loadUrl("file:///android_asset/index.html")
-
-        // Ensure links open within the WebView instead of in a browser
+        // Set WebViewClient to handle redirects within WebView
         myWebView.webViewClient = WebViewClient()
+
+        // Add the JavaScript interface
+        myWebView.addJavascriptInterface(BluetoothInterface(this), "BluetoothInterface")
+
+        // Load the HTML file
+        myWebView.loadUrl("file:///android_asset/index.html")
+    }
+
+    private fun hasPermissions(permissions: Array<String>): Boolean {
+        for (permission in permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false
+            }
+        }
+        return true
     }
 }

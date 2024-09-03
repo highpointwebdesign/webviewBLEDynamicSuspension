@@ -42,6 +42,10 @@
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="lights-tab" data-bs-toggle="tab" data-bs-target="#lights" type="button" role="tab" aria-controls="lights" aria-selected="false">Lights</button>
         </li>
+        <li class="nav-item" role="presentation">
+            <a href="testing.html" class="button">BL Testing</a>
+            <!--            <button class="nav-link" id="testing-tab" data-bs-toggle="tab" data-bs-target="#Testing" type="button" role="tab" aria-controls="Testing" aria-selected="false">Testing</button>-->
+        </li>
     </ul>
 
     <!-- Tab Content -->
@@ -50,6 +54,9 @@
         <div class="tab-pane fade show active p-3" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
             <h3>Dashboard</h3>
             <p>Placeholder for MPU6050 data and chassis orientation visualization.</p>
+            <button onclick="connectToESP32()">Connect to ESP32</button>
+            <button onclick="sendDataToESP32('command', 'test')">Send Test Data</button>
+            <button onclick="disconnectFromESP32()">Disconnect</button>
         </div>
 
         <!-- Suspension Tab -->
@@ -153,7 +160,7 @@
         return new bootstrap.Tooltip(tooltipTriggerEl, {
             trigger: 'click'
         })
-    })
+    });
 
     // Handle Increment and Decrement Buttons
     document.querySelectorAll('.increment-btn, .decrement-btn').forEach(function(button) {
@@ -174,23 +181,30 @@
             input.value = value;
 
             // Send the updated value to the ESP32 via Bluetooth
+            console.log(`Sending value ${value} for key ${key} to ESP32`);
             BluetoothInterface.sendData(JSON.stringify({ [key]: value }));
         });
     });
 
     // Functions to connect and disconnect from Bluetooth device
-    function connectToDevice(address) {
-        if (BluetoothInterface.connectToDevice(address)) {
-            console.log("Connected successfully");
-        } else {
-            console.error("Failed to connect");
-        }
+    function connectToESP32() {
+        const macAddress = "24:DC:C3:46:5A:F6"; // Replace with your actual ESP32 MAC address
+        console.log("Attempting to connect to macAddress: " + macAddress);
+        alert("Attempting to connect to: " + macAddress);
+        BluetoothInterface.connectToDevice(macAddress);
     }
 
+    function sendDataToESP32(key, value) {
+        console.log("Send button clicked");
+        const data = JSON.stringify({ [key]: value });
+        BluetoothInterface.sendData(data);
+    }
 
-    function disconnect() {
+    function disconnectFromESP32() {
+        console.log("Disconnect button clicked");
         BluetoothInterface.disconnect();
     }
+
 </script>
 </body>
 </html>
