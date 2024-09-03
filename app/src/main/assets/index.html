@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCRIS Control Panel</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles for better spacing */
+        .input-group {
+            max-width: 400px;
+            margin-bottom: 15px;
+        }
+        .tooltip-question {
+            margin-left: 5px;
+            cursor: pointer;
+            color: #0d6efd;
+        }
+        .navbar { background-color: #0080FF !important; }
+        a.navbar-brand { color: #fff; }
+    </style>
+</head>
+<body>
+<!-- Top Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">SCRIS</a>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container my-4">
+    <!-- Nav Tabs -->
+    <ul class="nav nav-tabs" id="controlTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="true">Dashboard</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="suspension-tab" data-bs-toggle="tab" data-bs-target="#suspension" type="button" role="tab" aria-controls="suspension" aria-selected="false">Suspension</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="lights-tab" data-bs-toggle="tab" data-bs-target="#lights" type="button" role="tab" aria-controls="lights" aria-selected="false">Lights</button>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="controlTabsContent">
+        <!-- Dashboard Tab -->
+        <div class="tab-pane fade show active p-3" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+            <h3>Dashboard</h3>
+            <p>Placeholder for MPU6050 data and chassis orientation visualization.</p>
+        </div>
+
+        <!-- Suspension Tab -->
+        <div class="tab-pane fade p-3" id="suspension" role="tabpanel" aria-labelledby="suspension-tab">
+            <h3>
+                Suspension Settings
+                <span tabindex="0" class="tooltip-question" data-bs-toggle="tooltip" data-bs-trigger="click focus" title="Manage the suspension settings for your chassis.">
+                            <i class="bi bi-question-circle"></i>
+                        </span>
+            </h3>
+
+            <!-- Default Ride Height Section -->
+            <div class="mb-4">
+                <h5>
+                    Default Ride Height
+                    <span tabindex="0" class="tooltip-question" data-bs-toggle="tooltip" data-bs-trigger="click focus" title="These store default ride height values (Front Left, Front Right, Rear Left, Rear Right).">
+                                <i class="bi bi-question-circle"></i>
+                            </span>
+                </h5>
+                <!-- Ride Height Inputs -->
+                <div class="input-group">
+                    <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="rideHeightFL">-</button>
+                    <input type="number" class="form-control ride-height-input" id="rideHeightFL" value="0" readonly>
+                    <button class="btn btn-outline-secondary increment-btn" type="button" data-key="rideHeightFL">+</button>
+                    <span class="input-group-text">FL</span>
+                </div>
+                <div class="input-group">
+                    <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="rideHeightFR">-</button>
+                    <input type="number" class="form-control ride-height-input" id="rideHeightFR" value="0" readonly>
+                    <button class="btn btn-outline-secondary increment-btn" type="button" data-key="rideHeightFR">+</button>
+                    <span class="input-group-text">FR</span>
+                </div>
+                <div class="input-group">
+                    <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="rideHeightRL">-</button>
+                    <input type="number" class="form-control ride-height-input" id="rideHeightRL" value="0" readonly>
+                    <button class="btn btn-outline-secondary increment-btn" type="button" data-key="rideHeightRL">+</button>
+                    <span class="input-group-text">RL</span>
+                </div>
+                <div class="input-group">
+                    <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="rideHeightRR">-</button>
+                    <input type="number" class="form-control ride-height-input" id="rideHeightRR" value="0" readonly>
+                    <button class="btn btn-outline-secondary increment-btn" type="button" data-key="rideHeightRR">+</button>
+                    <span class="input-group-text">RR</span>
+                </div>
+            </div>
+
+            <!-- Minimum Ride Height Section -->
+            <div class="mb-4">
+                <h5>
+                    Minimum Ride Height
+                    <span tabindex="0" class="tooltip-question" data-bs-toggle="tooltip" data-bs-trigger="click focus" title="This stores the minimum allowable ride height for the servos.">
+                                <i class="bi bi-question-circle"></i>
+                            </span>
+                </h5>
+                <div class="input-group">
+                    <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="minRideHeight">-</button>
+                    <input type="number" class="form-control ride-height-input" id="minRideHeight" value="0" readonly>
+                    <button class="btn btn-outline-secondary increment-btn" type="button" data-key="minRideHeight">+</button>
+                </div>
+            </div>
+
+            <!-- Maximum Ride Height Section -->
+            <div class="mb-4">
+                <h5>
+                    Maximum Ride Height
+                    <span tabindex="0" class="tooltip-question" data-bs-toggle="tooltip" data-bs-trigger="click focus" title="This stores the maximum allowable ride height for the servos.">
+                                <i class="bi bi-question-circle"></i>
+                            </span>
+                </h5>
+                <div class="input-group">
+                    <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="maxRideHeight">-</button>
+                    <input type="number" class="form-control ride-height-input" id="maxRideHeight" value="0" readonly>
+                    <button class="btn btn-outline-secondary increment-btn" type="button" data-key="maxRideHeight">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lights Tab -->
+        <div class="tab-pane fade p-3" id="lights" role="tabpanel" aria-labelledby="lights-tab">
+            <h3>Lights</h3>
+            <p>Placeholder for Lights control.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="text-center py-3">
+    <div class="container">
+        <p class="mb-0">Savage Cat Racing Innovative Solutions</p>
+    </div>
+</footer>
+
+<!-- Bootstrap 5 JS and dependencies (Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Icons for the question mark -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<script>
+    // Initialize all tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl, {
+            trigger: 'click'
+        })
+    })
+
+    // Handle Increment and Decrement Buttons
+    document.querySelectorAll('.increment-btn, .decrement-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var key = this.getAttribute('data-key');
+            var input = document.getElementById(key);
+            var value = parseInt(input.value);
+
+            if (this.classList.contains('increment-btn')) {
+                value += 1;
+            } else {
+                value -= 1;
+            }
+
+            // Ensure value doesn't go below 0 (or set your own constraints)
+            if (value < 0) value = 0;
+
+            input.value = value;
+
+            // Send the updated value to the ESP32 via Bluetooth
+            BluetoothInterface.sendData(JSON.stringify({ [key]: value }));
+        });
+    });
+
+    // Functions to connect and disconnect from Bluetooth device
+    function connectToDevice(address) {
+        if (BluetoothInterface.connectToDevice(address)) {
+            console.log("Connected successfully");
+        } else {
+            console.error("Failed to connect");
+        }
+    }
+
+
+    function disconnect() {
+        BluetoothInterface.disconnect();
+    }
+</script>
+</body>
+</html>
