@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SCRIS Control Panel</title>
     <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         /* Custom styles for better spacing */
         .input-group {
@@ -18,14 +18,14 @@
             color: #0d6efd;
         }
         .navbar { background-color: #0080FF !important; }
-        a.navbar-brand { color: #fff; }
+        .navbar-brand { color: #fff; }
     </style>
 </head>
 <body>
 <!-- Top Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Dynamic Drive</a>
+        <span class="navbar-brand">Dynamic Drive</span>
     </div>
 </nav>
 
@@ -54,9 +54,13 @@
         <div class="tab-pane fade show active p-3" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
             <h3>Dashboard</h3>
             <p>Placeholder for MPU6050 data and chassis orientation visualization.</p>
-            <button onclick="connectToESP32()">Connect to ESP32</button>
-            <button onclick="sendDataToESP32('command', 'test')">Send Test Data</button>
-            <button onclick="disconnectFromESP32()">Disconnect</button>
+            <div class="d-grid gap-2">
+                <button class="btn btn-success" onclick="connectToESP32()">Connect to ESP32</button>
+                <button class="btn btn-warning" onclick="sendDataToESP32('command', 'test')">Send Test Data</button>
+                <button class="btn btn-info" onclick="disconnectFromESP32()">Disconnect</button>
+            </div>
+
+
         </div>
 
         <!-- Suspension Tab -->
@@ -78,28 +82,28 @@
                 </h5>
                 <!-- Ride Height Inputs -->
                 <div class="input-group">
+                    <span class="input-group-text">FL</span>
                     <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="rideHeightFL">-</button>
                     <input type="number" class="form-control ride-height-input" id="rideHeightFL" value="0" readonly>
                     <button class="btn btn-outline-secondary increment-btn" type="button" data-key="rideHeightFL">+</button>
-                    <span class="input-group-text">FL</span>
                 </div>
                 <div class="input-group">
+                    <span class="input-group-text">FR</span>
                     <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="rideHeightFR">-</button>
                     <input type="number" class="form-control ride-height-input" id="rideHeightFR" value="0" readonly>
                     <button class="btn btn-outline-secondary increment-btn" type="button" data-key="rideHeightFR">+</button>
-                    <span class="input-group-text">FR</span>
                 </div>
                 <div class="input-group">
+                    <span class="input-group-text">RL</span>
                     <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="rideHeightRL">-</button>
                     <input type="number" class="form-control ride-height-input" id="rideHeightRL" value="0" readonly>
                     <button class="btn btn-outline-secondary increment-btn" type="button" data-key="rideHeightRL">+</button>
-                    <span class="input-group-text">RL</span>
                 </div>
                 <div class="input-group">
+                    <span class="input-group-text">RR</span>
                     <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="rideHeightRR">-</button>
                     <input type="number" class="form-control ride-height-input" id="rideHeightRR" value="0" readonly>
                     <button class="btn btn-outline-secondary increment-btn" type="button" data-key="rideHeightRR">+</button>
-                    <span class="input-group-text">RR</span>
                 </div>
             </div>
 
@@ -150,7 +154,7 @@
 </footer>
 
 <!-- Bootstrap 5 JS and dependencies (Popper) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <!-- Bootstrap Icons for the question mark -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <script>
