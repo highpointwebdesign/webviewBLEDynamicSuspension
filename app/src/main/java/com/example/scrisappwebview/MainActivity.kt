@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.scrisappwebview.R.id
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.view.WindowManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
@@ -42,6 +44,11 @@ class MainActivity : AppCompatActivity() {
         myWebView.loadUrl("file:///android_asset/index.html")
     }
 
+    // Function to update the status bar color
+    fun updateStatusBarColor(color: Int) {
+        window.statusBarColor = color
+    }
+    // Helper function to check permissions
     private fun hasPermissions(permissions: Array<String>): Boolean {
         for (permission in permissions) {
             if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {

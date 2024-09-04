@@ -6,17 +6,26 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.util.Log
 import android.webkit.JavascriptInterface
 import androidx.core.content.ContextCompat
 import java.io.IOException
 import java.io.OutputStream
 import java.util.UUID
+import android.os.Handler
+import android.os.Looper
 
-class BluetoothInterface(private val context: Context) {
+class BluetoothInterface(private val context: MainActivity) {
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
     private var bluetoothSocket: BluetoothSocket? = null
     private var outputStream: OutputStream? = null
+    private val handler = Handler(Looper.getMainLooper())
+
+    private var isConnected = false
+
+    // Polling interval (in milliseconds)
+    private val pollingInterval = 3000L // 3 seconds
 
     @JavascriptInterface
     fun connectToDevice(address: String) {
@@ -39,13 +48,55 @@ class BluetoothInterface(private val context: Context) {
 
             if (bluetoothSocket?.isConnected == true) {
                 Log.d("BluetoothInterface", "Connected to $address")
+                isConnected = true
+                startPollingConnectionStatus()
+                context.runOnUiThread {
+                    context.updateStatusBarColor(Color.parseColor("#007FFF")) // Azure Blue
+                }
             }
         } catch (e: SecurityException) {
             Log.e("BluetoothInterface", "Bluetooth permission denied", e)
         } catch (e: IOException) {
             Log.e("BluetoothInterface", "Connection failed", e)
+            context.runOnUiThread {
+                context.updateStatusBarColor(Color.RED)
+            }
         } catch (e: IllegalArgumentException) {
             Log.e("BluetoothInterface", "Invalid Bluetooth device address", e)
+        }
+    }
+
+    private fun startPollingConnectionStatus() {
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                if (isConnectionLost()) {
+                    Log.d("BluetoothInterface", "Connection lost")
+                    isConnected = false
+                    notifyConnectionStatus("disconnected")
+                }
+                handler.postDelayed(this, pollingInterval)
+            }
+        }, pollingInterval)
+    }
+
+    private fun isConnectionLost(): Boolean {
+        if (bluetoothSocket == null || !isConnected) return true
+
+        return try {
+            // Try to send a ping byte to check the connection
+            outputStream?.write("ping".toByteArray())
+            false
+        } catch (e: IOException) {
+            Log.e("BluetoothInterface", "Failed to send data. Connection lost.", e)
+            true
+        }
+    }
+
+    private fun notifyConnectionStatus(status: String) {
+        context.runOnUiThread {
+            context.updateStatusBarColor(
+                if (status == "connected") Color.parseColor("#007FFF") else Color.RED
+            )
         }
     }
 
@@ -64,6 +115,10 @@ class BluetoothInterface(private val context: Context) {
         Log.d("BluetoothInterface", "Disconnecting")
         try {
             bluetoothSocket?.close()
+            isConnected = false
+            context.runOnUiThread {
+                context.updateStatusBarColor(Color.RED)
+            }
         } catch (e: IOException) {
             Log.e("BluetoothInterface", "Failed to disconnect", e)
         }
