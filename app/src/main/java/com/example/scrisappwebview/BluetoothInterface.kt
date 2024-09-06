@@ -22,8 +22,6 @@ class BluetoothInterface(private val context: MainActivity) {
     private var outputStream: OutputStream? = null
     private val handler = Handler(Looper.getMainLooper())
 
-    private var isConnected = false
-
     // Polling interval (in milliseconds)
     private val pollingInterval = 3000L // 3 seconds
 
@@ -48,7 +46,7 @@ class BluetoothInterface(private val context: MainActivity) {
 
             if (bluetoothSocket?.isConnected == true) {
                 Log.d("BluetoothInterface", "Connected to $address")
-                isConnected = true
+                // Change status bar color to Azure Blue on connection
                 startPollingConnectionStatus()
                 context.runOnUiThread {
                     context.updateStatusBarColor(Color.parseColor("#007FFF")) // Azure Blue
@@ -58,6 +56,7 @@ class BluetoothInterface(private val context: MainActivity) {
             Log.e("BluetoothInterface", "Bluetooth permission denied", e)
         } catch (e: IOException) {
             Log.e("BluetoothInterface", "Connection failed", e)
+            // Change status bar color to Red on failure
             context.runOnUiThread {
                 context.updateStatusBarColor(Color.RED)
             }
@@ -69,35 +68,17 @@ class BluetoothInterface(private val context: MainActivity) {
     private fun startPollingConnectionStatus() {
         handler.postDelayed(object : Runnable {
             override fun run() {
-                if (isConnectionLost()) {
+                if (bluetoothSocket?.isConnected == false) {
+                    // Connection lost
                     Log.d("BluetoothInterface", "Connection lost")
-                    isConnected = false
-                    notifyConnectionStatus("disconnected")
+                    context.runOnUiThread {
+                        context.updateStatusBarColor(Color.RED) // Set status bar to red on disconnection
+                    }
                 }
+                // Continue polling
                 handler.postDelayed(this, pollingInterval)
             }
         }, pollingInterval)
-    }
-
-    private fun isConnectionLost(): Boolean {
-        if (bluetoothSocket == null || !isConnected) return true
-
-        return try {
-            // Try to send a ping byte to check the connection
-            outputStream?.write("ping".toByteArray())
-            false
-        } catch (e: IOException) {
-            Log.e("BluetoothInterface", "Failed to send data. Connection lost.", e)
-            true
-        }
-    }
-
-    private fun notifyConnectionStatus(status: String) {
-        context.runOnUiThread {
-            context.updateStatusBarColor(
-                if (status == "connected") Color.parseColor("#007FFF") else Color.RED
-            )
-        }
     }
 
     @JavascriptInterface
@@ -115,7 +96,6 @@ class BluetoothInterface(private val context: MainActivity) {
         Log.d("BluetoothInterface", "Disconnecting")
         try {
             bluetoothSocket?.close()
-            isConnected = false
             context.runOnUiThread {
                 context.updateStatusBarColor(Color.RED)
             }
