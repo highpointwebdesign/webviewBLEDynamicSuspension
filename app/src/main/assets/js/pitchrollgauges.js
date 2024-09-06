@@ -49,8 +49,6 @@ function simulatePitch() {
 }
 
 window.onload = function() {
-  // createLines('roll-lines');
-  // createLines('pitch-lines');
   updateRoll();
   updatePitch();
   setInterval(simulateRoll, 500); // Update roll every 0.5 second
