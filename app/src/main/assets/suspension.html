@@ -3,300 +3,277 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCRIS Control Panel</title>
+    <title>Dynamic Drive Control Panel</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/pitchrollgauges.css">
-    <style>
-        /* Custom styles for better spacing */
-        .input-group {
-            max-width: 400px;
-            margin-bottom: 15px;
-        }
-        .tooltip-question {
-            margin-left: 5px;
-            cursor: pointer;
-            color: #0d6efd;
-        }
-        .navbar { background-color: #0080FF !important; }
-        .navbar-brand { color: #fff; }
-/* gauges */
-.chart-container {
-      width: 45%;
-      display: inline-block;
-      margin: 20px;
-    }
-    .chart-container canvas {
-      width: 100%;
-    }
+    <link rel="stylesheet" href="css/app.css">
+	<!-- Bootstrap Icons for the question mark -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://mobilekit.bragherstudio.com/view29/assets/css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,700&display=swap">
 
+    <style>
+
+        /* Navbar styling */
+        .navbar { background-color: #1E74FD !important; }
+        .navbar-brand { color: #fff; }
+
+        /* Page-specific styling */
+        h2 {color: #007fff;}
+        h6 {color: orange;}
+
+        /* Cards and form layout */
+        .card {
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #f0f8ff;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .btn-outline-secondary {
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
+        }
+
+        /* Tooltip hover effect */
+        .tooltip-question {
+            color: #007bff;
+            cursor: pointer;
+        }
+
+        .tooltip-question:hover {
+            color: #0056b3;
+        }
+
+        /* Sticky Footer */
+         
+
+        /* STICKY FOOTER END       */
+        
     </style>
 </head>
 <body>
+
 <!-- Top Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <span class="navbar-brand">Dynamic Drive</span>
+        <!-- Menu Icon -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">Dynamic Drive</a>
     </div>
 </nav>
 
+<!-- Offcanvas Menu -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a href="index.html">Dashboard</a>
+            </li>
+            <li class="list-group-item">
+                <a href="suspension.html">Suspension</a>
+            </li>
+            <li class="list-group-item">
+                <a href="lights.html">Lights</a>
+            </li>
+            <li class="list-group-item">
+                <a href="setup.html">Setup</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
 <!-- Main Content -->
 <div class="container my-4">
-    <!-- Nav Tabs -->
-    <ul class="nav nav-tabs" id="controlTabs" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="true">Dashboard</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="suspension-tab" data-bs-toggle="tab" data-bs-target="#suspension" type="button" role="tab" aria-controls="suspension" aria-selected="false">Suspension</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="lights-tab" data-bs-toggle="tab" data-bs-target="#lights" type="button" role="tab" aria-controls="lights" aria-selected="false">Lights</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="setup-tab" data-bs-toggle="tab" data-bs-target="#setup" type="button" role="tab" aria-controls="setup" aria-selected="false">Setup</button>
-        </li>
+    <!-- Suspension Settings Header -->
+    <h3>Suspension Settings</h3>
 
-    </ul>
-
-    <!-- Tab Content -->
-    <div class="tab-content" id="controlTabsContent">
-        <!-- Dashboard Tab -->
-        <div class="tab-pane fade show active p-3" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
-            <h3>Dashboard</h3>
-
-            <div class="d-grid gap-2">
-                <div class="gauge-container">
-                    <div class="circle-container">
-                      <div class="circle" id="roll-circle">
-                        <div class="sky"></div>
-                        <div class="ground"></div>
-                        <div class="groundneedle"></div>
-                        <div class="skyneedle"></div>
-                        <img src="images/truck-side.png" class="truck-icon-side" alt="Truck Front">
-                      </div>
-                      <div class="lines" id="roll-lines"></div>
-                      <div class="degree-display" id="roll-degree">0°</div>
-                    </div>
-                    <div class="circle-container">
-                      <div class="circle" id="pitch-circle">
-                        <div class="sky"></div>
-                        <div class="ground"></div>
-                        <div class="groundneedle"></div>
-                        <div class="skyneedle"></div>
-                        <img src="images/truck-front.png" class="truck-icon-front" alt="Truck Side">
-                      </div>
-                      <div class="lines" id="pitch-lines"></div>
-                      <div class="degree-display" id="pitch-degree">0°</div>
-                    </div>
-                  </div>
+    
+    <!-- mobilekit card start -->
+    <div class="section mt-3 mb-3">
+        <div class="card">
+            <img src="images/truck-front.png" class="card-img-top" alt="image">
+            <div class="card-body">
+                <h6 class="card-subtitle">Discover</h6>
+                <h5 class="card-title">Components</h5>
+                <p class="card-text">
+                    Reusable components designed for the mobile interface and ready to use.
+                </p>
+                <a href="app-components.html" class="btn btn-primary">
+                    <ion-icon name="cube-outline" role="img" class="md hydrated" aria-label="cube outline"></ion-icon>
+                    Preview
+                </a>
             </div>
-
-<div class="chart-container">
-      <h2>Pitch</h2>
-      <div id="pitch_chart_div" style="width: 400px; height: 120px;"></div>
+        </div>
     </div>
-    <div class="chart-container">
-      <h2>Roll</h2>
-      <div id="roll_chart_div" style="width: 400px; height: 120px;"></div>
+    <!-- mobilekit card end -->
+
+
+    <!-- Ride Height Control Card -->
+    <div class="card">
+        <div class="card-header text-primary">
+            Ride Height Control 
+        </div>
+        <div class="card-body">
+            <!-- Ride Height Limits -->
+            <h6 class="text-warning">Ride Height Limits</h6>
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label for="minRideHeight" class="form-label">MIN</label> <span tabindex="0" class="tooltip-question" data-bs-toggle="tooltip" data-bs-trigger="click focus" title="Manage the servo settings for your ride height."><i class="bi bi-question-circle"></i></span>   
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="minRideHeight">-</button>
+                        <input type="number" class="form-control ride-height-input text-center" id="minRideHeight" value="0" readonly>
+                        <button class="btn btn-outline-secondary increment-btn" type="button" data-key="minRideHeight">+</button>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="maxRideHeight" class="form-label">MAX</label> <span tabindex="0" class="tooltip-question" data-bs-toggle="tooltip" data-bs-trigger="click focus" title="Manage the servo settings for your ride height."><i class="bi bi-question-circle"></i></span>   
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="maxRideHeight">-</button>
+                        <input type="number" class="form-control ride-height-input text-center" id="maxRideHeight" value="0" readonly>
+                        <button class="btn btn-outline-secondary increment-btn" type="button" data-key="maxRideHeight">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Default Ride Height -->
+            <h6 class="text-warning">Default Ride Height</h6>
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label for="rideHeightFL" class="form-label">Front Left</label>
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="rideHeightFL">-</button>
+                        <input type="number" class="form-control ride-height-input text-center" id="rideHeightFL" value="0" readonly>
+                        <button class="btn btn-outline-secondary increment-btn" type="button" data-key="rideHeightFL">+</button>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="rideHeightFR" class="form-label">Front Right</label>
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="rideHeightFR">-</button>
+                        <input type="number" class="form-control ride-height-input text-center" id="rideHeightFR" value="0" readonly>
+                        <button class="btn btn-outline-secondary increment-btn" type="button" data-key="rideHeightFR">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rear Left and Right -->
+            <div class="row">
+                <div class="col-6">
+                    <label for="rideHeightRL" class="form-label">Rear Left</label>
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="rideHeightRL">-</button>
+                        <input type="number" class="form-control ride-height-input text-center" id="rideHeightRL" value="0" readonly>
+                        <button class="btn btn-outline-secondary increment-btn" type="button" data-key="rideHeightRL">+</button>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="rideHeightRR" class="form-label">Rear Right</label>
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="rideHeightRR">-</button>
+                        <input type="number" class="form-control ride-height-input text-center" id="rideHeightRR" value="0" readonly>
+                        <button class="btn btn-outline-secondary increment-btn" type="button" data-key="rideHeightRR">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- Chassis Settings Card -->
+    <div class="card">
+        <div class="card-header text-primary">
+            Chassis Settings<span tabindex="0" class="tooltip-question" data-bs-toggle="tooltip" data-bs-trigger="click focus" title="Manage the responsiveness of the servos."><i class="bi bi-question-circle"></i></span>    
         </div>
-
-        <!-- Suspension Tab -->
-        <div class="tab-pane fade p-3" id="suspension" role="tabpanel" aria-labelledby="suspension-tab">
-            <h3>
-                Suspension Settings
-                <span tabindex="0" class="tooltip-question" data-bs-toggle="tooltip" data-bs-trigger="click focus" title="Manage the suspension settings for your chassis.">
-                            <i class="bi bi-question-circle"></i>
-                        </span>
-            </h3>
-
-            <!-- Default Ride Height Section -->
-            <div class="mb-4">
-                <h5>
-                    Default Ride Height
-                    <span tabindex="0" class="tooltip-question" data-bs-toggle="tooltip" data-bs-trigger="click focus" title="These store default ride height values (Front Left, Front Right, Rear Left, Rear Right).">
-                                <i class="bi bi-question-circle"></i>
-                            </span>
-                </h5>
-                <!-- Ride Height Inputs -->
-                <div class="input-group">
-                    <span class="input-group-text">FL</span>
-                    <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="rideHeightFL">-</button>
-                    <input type="number" class="form-control ride-height-input" id="rideHeightFL" value="0" readonly>
-                    <button class="btn btn-outline-secondary increment-btn" type="button" data-key="rideHeightFL">+</button>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-text">FR</span>
-                    <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="rideHeightFR">-</button>
-                    <input type="number" class="form-control ride-height-input" id="rideHeightFR" value="0" readonly>
-                    <button class="btn btn-outline-secondary increment-btn" type="button" data-key="rideHeightFR">+</button>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-text">RL</span>
-                    <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="rideHeightRL">-</button>
-                    <input type="number" class="form-control ride-height-input" id="rideHeightRL" value="0" readonly>
-                    <button class="btn btn-outline-secondary increment-btn" type="button" data-key="rideHeightRL">+</button>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-text">RR</span>
-                    <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="rideHeightRR">-</button>
-                    <input type="number" class="form-control ride-height-input" id="rideHeightRR" value="0" readonly>
-                    <button class="btn btn-outline-secondary increment-btn" type="button" data-key="rideHeightRR">+</button>
+        <div class="card-body">
+            <!-- Balance -->
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label for="balance" class="form-label">Balance</label>
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="balance">-</button>
+                        <input type="number" class="form-control balance-input text-center" id="balance" value="0" readonly>
+                        <button class="btn btn-outline-secondary increment-btn" type="button" data-key="balance">+</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Minimum Ride Height Section -->
-            <div class="mb-4">
-                <h5>
-                    Minimum Ride Height
-                    <span tabindex="0" class="tooltip-question" data-bs-toggle="tooltip" data-bs-trigger="click focus" title="This stores the minimum allowable ride height for the servos.">
-                                <i class="bi bi-question-circle"></i>
-                            </span>
-                </h5>
-                <div class="input-group">
-                    <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="minRideHeight">-</button>
-                    <input type="number" class="form-control ride-height-input" id="minRideHeight" value="0" readonly>
-                    <button class="btn btn-outline-secondary increment-btn" type="button" data-key="minRideHeight">+</button>
+            <!-- DLY and SPD on the Same Row -->
+            <div class="row">
+                <div class="col-6">
+                    <label for="decay" class="form-label">Decay</label>
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="decay">-</button>
+                        <input type="number" class="form-control decay-input text-center" id="decay" value="0" readonly>
+                        <button class="btn btn-outline-secondary increment-btn" type="button" data-key="decay">+</button>
+                    </div>
                 </div>
-            </div>
-
-            <!-- Maximum Ride Height Section -->
-            <div class="mb-4">
-                <h5>
-                    Maximum Ride Height
-                    <span tabindex="0" class="tooltip-question" data-bs-toggle="tooltip" data-bs-trigger="click focus" title="This stores the maximum allowable ride height for the servos.">
-                                <i class="bi bi-question-circle"></i>
-                            </span>
-                </h5>
-                <div class="input-group">
-                    <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="maxRideHeight">-</button>
-                    <input type="number" class="form-control ride-height-input" id="maxRideHeight" value="0" readonly>
-                    <button class="btn btn-outline-secondary increment-btn" type="button" data-key="maxRideHeight">+</button>
+                <div class="col-6">
+                    <label for="reaction" class="form-label">Speed</label>
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="reaction">-</button>
+                        <input type="number" class="form-control reaction-input text-center" id="reaction" value="0" readonly>
+                        <button class="btn btn-outline-secondary increment-btn" type="button" data-key="reaction">+</button>
+                    </div>
                 </div>
-            </div>
-
-            <div class="mb-4">
-                <h5>
-                    Balance (Front Vs. Rear)
-                    <span tabindex="0" class="tooltip-question" data-bs-toggle="tooltip" data-bs-trigger="click focus" title="This stores the value for how quickly the chassis will settle after encountering a bump."><i class="bi bi-question-circle"></i>
-                            </span>
-                </h5>
-                <div class="input-group">
-                    <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="balance">-</button>
-                    <input type="number" class="form-control balance-input" id="balance" value="0" readonly>
-                    <button class="btn btn-outline-secondary increment-btn" type="button" data-key="balance">+</button>
-                </div>
-            </div>
-
-            <div class="mb-4">
-                <h5>
-                    Decay Settings
-                    <span tabindex="0" class="tooltip-question" data-bs-toggle="tooltip" data-bs-trigger="click focus" title="This stores the value for how quickly the chassis will settle after encountering a bump."><i class="bi bi-question-circle"></i>
-                            </span>
-                </h5>
-                <div class="input-group">
-                    <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="decay">-</button>
-                    <input type="number" class="form-control decay-input" id="decay" value="0" readonly>
-                    <button class="btn btn-outline-secondary increment-btn" type="button" data-key="decay">+</button>
-                </div>
-            </div>
-
-            <div class="mb-4">
-                <h5>
-                    Reaction Speed
-                    <span tabindex="0" class="tooltip-question" data-bs-toggle="tooltip" data-bs-trigger="click focus" title="This stores the value for how quickly the chassis will respond after encountering a bump."><i class="bi bi-question-circle"></i>
-                            </span>
-                </h5>
-                <div class="input-group">
-                    <button class="btn btn-outline-secondary decrement-btn" type="button" data-key="reaction">-</button>
-                    <input type="number" class="form-control reaction-input" id="reaction" value="0" readonly>
-                    <button class="btn btn-outline-secondary increment-btn" type="button" data-key="reaction">+</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Lights Tab -->
-        <div class="tab-pane fade p-3" id="lights" role="tabpanel" aria-labelledby="lights-tab">
-            <h3>Lights</h3>
-            <p>Placeholder for Lights control.</p>
-            <div class="mb-4">
-                <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-                  <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="btncheck1">Checkbox 1</label>
-
-                  <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="btncheck2">Checkbox 2</label>
-
-                  <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="btncheck3">Checkbox 3</label>
-                </div>
-            </div>
-
-            <div class="mb-4">
-                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-                  <label class="btn btn-outline-primary" for="btnradio1">Radio 1</label>
-
-                  <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="btnradio2">Radio 2</label>
-
-                  <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="btnradio3">Radio 3</label>
-                </div>
-            </div>
-
-            <div class="mb-4">
-                <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
-                  <button type="button" class="btn btn-primary">Button</button>
-                  <button type="button" class="btn btn-primary">Button</button>
-                  <button type="button" class="btn btn-primary">Button</button>
-                  <button type="button" class="btn btn-primary">Button</button>
-                </div>
-            </div>
-
-
-        </div>
-
-        <!-- Setup Tab -->
-        <div class="tab-pane fade p-3" id="setup" role="tabpanel" aria-labelledby="setup-tab">
-            <h3>Setup</h3>
-            <p>This area is where you define settings - one and done - or at least until you change out hardware.</p>
-            <div class="mb-4">
-                <h5>
-                    Servo Settings (Min/Max)
-                    <span tabindex="0" class="tooltip-question" data-bs-toggle="tooltip" data-bs-trigger="click focus" title="This saves the end point settings to ensure the suspenion is not extended beyond mechanical limits."><i class="bi bi-question-circle"></i>
-                    </span>
-                </h5>
-                <div class="input-group">
-                    <input type="text" class="form-control minmaxServero" id="minmaxServero" value="0" readonly>
-                </div>
-            </div>
-
-            <div class="d-grid gap-2">
-                <button class="btn btn-success" onclick="connectToESP32()">Connect</button>
-                <button class="btn btn-warning" onclick="sendDataToESP32('command', 'test')">Send Test Data</button>
-                <button class="btn btn-info" onclick="disconnectFromESP32()">Disconnect</button>
-                <button class="btn btn-danger" onclick="resetGyro()">Reset Suspension Gyro</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Footer -->
-<footer class="text-center py-3">
-    <div class="container">
-        <p class="mb-0">Savage Cat Solutions &copy;2020 - <span id="currentYear"></span></p>
-    </div>
-</footer>
+<div class="appBottomMenu">
+    <a href="index.html" class="item active">
+        <div class="col">
+            <i class="fa-solid fa-house">home</i>
+        </div>
+    </a>
+    <a href="suspension.html" class="item">
+        <div class="col">
+            <!-- <i class="fa-solid fa-truck-monster"></i> -->
+            <i class="fa-solid fa-sliders"></i>
+        </div>
+    </a>
+    <a href="lights.html" class="item">
+        <div class="col">
+            <i class="fa-solid fa-lightbulb"></i>
+            <span class="badge badge-danger">5</span>
+        </div>
+    </a>
+    <a href="setup.html" class="item">
+        <div class="col">
+            <i class="fa-solid fa-gear"></i>
+        </div>
+    </a>
+    <!-- <a href="#sidebarPanel" class="item" data-bs-toggle="offcanvas">
+        <div class="col">
+            <ion-icon name="menu-outline" role="img" class="md hydrated" aria-label="menu outline"></ion-icon>
+        </div>
+    </a> -->
+</div>
+
+    
 
 <!-- Bootstrap 5 JS and dependencies (Popper) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <!-- script for the pitch/roll gauges -->
 <script src="js/pitchrollgauges.js"></script>
-<!-- Bootstrap Icons for the question mark -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
 <script>
     // Initialize all tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
@@ -340,126 +317,7 @@
         document.getElementById("currentYear").innerHTML = year;
     }
 
-    // Functions to connect and disconnect from Bluetooth device
-    function connectToESP32() {
-        const macAddress = "24:DC:C3:46:5A:F6"; // Replace with your actual ESP32 MAC address
-        console.log("Attempting to connect to macAddress: " + macAddress);
-        alert("Attempting to connect to: " + macAddress);
-        BluetoothInterface.connectToDevice(macAddress);
-    }
-
-    function sendDataToESP32(key, value) {
-        console.log(key)
-        console.log(value);
-        console.log("Send button clicked");
-        const data = JSON.stringify({ [key]: value });
-        BluetoothInterface.sendData(data);
-    }
-
-    function disconnectFromESP32() {
-        console.log("Disconnect button clicked");
-        BluetoothInterface.disconnect();
-    }
-
-    function resetGyro() {
-        const key = "mpureset"
-        const value = 1
-        console.log("Reset Gyro button clicked");
-        const data = JSON.stringify({ [key]: value });
-        BluetoothInterface.sendData(data);
-        
-    }
-
     init();
-
 </script>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript">
-    google.charts.load('current', {'packages':['gauge']});
-    google.charts.setOnLoadCallback(drawCharts);
-
-    let googlePitch = 37;
-    let googleRoll = 29;
-
-    function drawCharts() {
-      drawPitchChart();
-      drawRollChart();
-      setInterval(updateCharts, 1000); // Update every second
-    }
-
-    function drawPitchChart() {
-      const pitchData = google.visualization.arrayToDataTable([
-        ['Label', 'Value'],
-        ['Pitch', googlePitch]
-      ]);
-
-      const pitchOptions = {
-        width: 400, height: 120,
-        redFrom: 70, redTo: 90,
-        yellowFrom: 50, yellowTo: 70,
-        minorTicks: 5,
-        max: 90
-      };
-
-      const pitchChart = new google.visualization.Gauge(document.getElementById('pitch_chart_div'));
-      pitchChart.draw(pitchData, pitchOptions);
-    }
-
-    function drawRollChart() {
-      const rollData = google.visualization.arrayToDataTable([
-        ['Label', 'Value'],
-        ['Roll', googleRoll]
-      ]);
-
-      const rollOptions = {
-        width: 400, height: 120,
-        redFrom: 70, redTo: 90,
-        yellowFrom: 50, yellowTo: 70,
-        minorTicks: 5,
-        max: 90
-      };
-
-      const rollChart = new google.visualization.Gauge(document.getElementById('roll_chart_div'));
-      rollChart.draw(rollData, rollOptions);
-    }
-
-    function updateCharts() {
-      googlePitch = Math.max(0, Math.min(90, pitch + (Math.random() * 4 - 2)));
-      googleRoll = Math.max(0, Math.min(90, roll + (Math.random() * 4 - 2)));
-
-      const pitchData = google.visualization.arrayToDataTable([
-        ['Label', 'Value'],
-        ['Pitch', googlePitch]
-      ]);
-
-      const rollData = google.visualization.arrayToDataTable([
-        ['Label', 'Value'],
-        ['Roll', googleRoll]
-      ]);
-
-      const pitchChart = new google.visualization.Gauge(document.getElementById('pitch_chart_div'));
-      const rollChart = new google.visualization.Gauge(document.getElementById('roll_chart_div'));
-
-      const pitchOptions = {
-        width: 400, height: 120,
-        redFrom: 70, redTo: 90,
-        yellowFrom: 50, yellowTo: 70,
-        minorTicks: 5,
-        max: 90
-      };
-
-      const rollOptions = {
-        width: 400, height: 120,
-        redFrom: 70, redTo: 90,
-        yellowFrom: 50, yellowTo: 70,
-        minorTicks: 5,
-        max: 90
-      };
-
-      pitchChart.draw(pitchData, pitchOptions);
-      rollChart.draw(rollData, rollOptions);
-    }
-  </script>
-
 </body>
 </html>

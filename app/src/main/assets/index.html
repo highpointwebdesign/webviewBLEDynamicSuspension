@@ -7,11 +7,24 @@
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/app.css">
-    
     <link rel="stylesheet" href="css/pitchrollgauges.css">
     <!-- Bootstrap Icons for the question mark -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    
+    <style>
+        #bluetoothdevicesList {
+    list-style: none;
+    padding: 0;
+}
+
+.device-item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.device-item:hover {
+    background-color: #f0f0f0;
+}
+</style>
 </head>
 <body>
 
@@ -45,6 +58,12 @@
             </li>
             <li class="list-group-item">
                 <a href="setup.html">Setup</a>
+            </li>
+            <li class="list-group-item">
+                <a href="blank_page.html">Blank Page</a>
+            </li>
+            <li class="list-group-item">
+                <a href="mk-suspension.html">MobileKit</a>
             </li>
         </ul>
     </div>
@@ -87,19 +106,26 @@
         <button class="btn btn-success" type="button" onclick="connectToESP32()">Connect to ESP32</button>
         <button class="btn btn-warning" type="button" onclick="sendDataToESP32('command', 'test')">Send Test Data</button>
         <button class="btn btn-info" type="button" onclick="disconnectFromESP32()">Disconnect</button>
+        <button onclick="startBluetoothDiscovery()">Discover Devices</button>
+    
     </div>
 </div>
 
+<div class="container my-4">
+    <div class="d-grid gap-2">
+        <ul id="deviceList"></ul>
+    </div>
+</div>
 <!-- <div class="d-grid gap-2">
   
 </div> -->
 
 
-<footer class="footer">
+<!-- <footer class="footer">
     <div class="container">
       <p class="mb-0">Savage Cat Solutions &copy;2020 - <span id="currentYear"></span></p>
     </div>
-  </footer>
+  </footer> -->
 <!-- Bootstrap 5 JS and dependencies (Popper) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <!-- script for the pitch/roll gauges -->
@@ -115,6 +141,7 @@
 
     function init(){
         getCurrentYearForCopy();
+		// connectToESP32();
     }
 
     function getCurrentYearForCopy(){
@@ -124,11 +151,59 @@
     }
 
     // Functions to connect and disconnect from Bluetooth device
+        function startBluetoothDiscovery() {
+            document.getElementById("deviceList").innerHTML = "<em>Searching...</em>"
+            BluetoothInterface.startDeviceDiscovery();
+        }
+
+        function handleDiscoveredDevices(devicesJson) {
+            const devices = JSON.parse(devicesJson);
+            const deviceList = document.getElementById("deviceList");
+
+            // Clear any previous entries
+            deviceList.innerHTML = "";
+
+            // Create list items for each device
+            devices.forEach(device => {
+                const listItem = document.createElement("li");
+                listItem.textContent = `${device.name} (${device.address})`;
+                // listItem.textContent = `${device.name}`;
+
+                // Add a click listener to connect to the device when clicked
+                listItem.addEventListener("click", () => {
+                    BluetoothInterface.connectToDevice(device.address);
+                });
+
+                deviceList.appendChild(listItem);
+            });
+        }
+
+
+
+        function connectToDevice(address) {
+            console.log("Attempting to connect to device:", address);
+            BluetoothInterface.connectToDevice(address);
+        }
+
+
+
+    function handleBluetoothData(responseData) {
+        console.log("Data from ESP32:", responseData);
+        // Process the data received from ESP32
+    }
+
+
     function connectToESP32() {
-        const macAddress = "24:DC:C3:46:5A:F6"; // Replace with your actual ESP32 MAC address
-        console.log("Attempting to connect to macAddress: " + macAddress);
-        alert("Attempting to connect to: " + macAddress);
-        BluetoothInterface.connectToDevice(macAddress);
+
+        if (BluetoothInterface.isConnected()) {
+            console.log("Already connected to ESP32.");
+            return; // Skip connection if already connected
+        } else {
+            const macAddress = "08:A6:F7:B1:A4:D6"; // Replace with your actual ESP32 MAC address
+            console.log("Attempting to connect to macAddress: " + macAddress);
+            // alert("Attempting to connect to: " + macAddress);
+            BluetoothInterface.connectToDevice(macAddress);
+        }
     }
 
     function sendDataToESP32(key, value) {

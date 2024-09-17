@@ -4,23 +4,28 @@ import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
-import android.content.Context
 import android.content.pm.PackageManager
+import android.content.Context
 import android.graphics.Color
+import android.location.LocationManager
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.webkit.JavascriptInterface
+import android.webkit.WebView
 import androidx.core.content.ContextCompat
 import java.io.IOException
 import java.io.OutputStream
 import java.util.UUID
-import android.os.Handler
-import android.os.Looper
+import org.json.JSONArray
+import org.json.JSONObject
 
-class BluetoothInterface(private val context: MainActivity) {
+class BluetoothInterface(private val context: MainActivity, private val myWebView: WebView) {
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
     private var bluetoothSocket: BluetoothSocket? = null
     private var outputStream: OutputStream? = null
     private val handler = Handler(Looper.getMainLooper())
+    private val discoveredDevices = mutableListOf<BluetoothDevice>()
 
     // Polling interval (in milliseconds)
     private val pollingInterval = 3000L // 3 seconds
@@ -29,7 +34,6 @@ class BluetoothInterface(private val context: MainActivity) {
     fun connectToDevice(address: String) {
         Log.d("BluetoothInterface", "Attempting to connect to $address")
 
-        // Check for Bluetooth permissions
         if (!hasBluetoothPermissions()) {
             Log.e("BluetoothInterface", "Bluetooth permissions are not granted")
             return
@@ -38,7 +42,7 @@ class BluetoothInterface(private val context: MainActivity) {
         try {
             val device: BluetoothDevice = bluetoothAdapter?.getRemoteDevice(address)
                 ?: throw IllegalArgumentException("Device not found or Bluetooth is disabled")
-            val uuid: UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB") // Standard SPP UUID
+            val uuid: UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
 
             bluetoothSocket = device.createRfcommSocketToServiceRecord(uuid)
             bluetoothSocket?.connect()
@@ -46,36 +50,75 @@ class BluetoothInterface(private val context: MainActivity) {
 
             if (bluetoothSocket?.isConnected == true) {
                 Log.d("BluetoothInterface", "Connected to $address")
-                // Change status bar color to Azure Blue on connection
                 startPollingConnectionStatus()
                 context.runOnUiThread {
-                    context.updateStatusBarColor(Color.parseColor("#007FFF")) // Azure Blue
+                    context.updateStatusBarColor(Color.parseColor("#007FFF"))
                 }
             }
-        } catch (e: SecurityException) {
-            Log.e("BluetoothInterface", "Bluetooth permission denied", e)
         } catch (e: IOException) {
             Log.e("BluetoothInterface", "Connection failed", e)
-            // Change status bar color to Red on failure
             context.runOnUiThread {
                 context.updateStatusBarColor(Color.RED)
             }
-        } catch (e: IllegalArgumentException) {
-            Log.e("BluetoothInterface", "Invalid Bluetooth device address", e)
         }
+    }
+
+    @JavascriptInterface
+    fun startDeviceDiscovery() {
+        Log.d("BluetoothInterface", "Starting device discovery")
+
+        if (!hasBluetoothPermissions()) {
+            Log.e("BluetoothInterface", "Bluetooth permissions are not granted")
+            return
+        }
+
+        if (bluetoothAdapter?.isEnabled == false) {
+            return
+        }
+
+        // Clear the previous list of discovered devices
+        discoveredDevices.clear()
+
+        // Start discovery and register a BroadcastReceiver in MainActivity
+        if (bluetoothAdapter?.startDiscovery() == true) {
+            Log.d("BluetoothInterface", "Bluetooth discovery started")
+        } else {
+            Log.e("BluetoothInterface", "Failed to start Bluetooth discovery")
+        }
+    }
+
+    // Function to pass discovered devices to WebView
+    fun sendDiscoveredDevicesToWebView() {
+        val jsonArray = JSONArray()
+
+        for (device in discoveredDevices) {
+            val jsonObject = JSONObject()
+            jsonObject.put("name", device.name ?: "Unknown Device")
+            jsonObject.put("address", device.address)
+            jsonArray.put(jsonObject)
+        }
+
+        val jsonString = jsonArray.toString()
+
+        context.runOnUiThread {
+            myWebView.evaluateJavascript("handleDiscoveredDevices('$jsonString')", null)
+        }
+    }
+
+    fun addDiscoveredDevice(device: BluetoothDevice) {
+        discoveredDevices.add(device)
+        sendDiscoveredDevicesToWebView()
     }
 
     private fun startPollingConnectionStatus() {
         handler.postDelayed(object : Runnable {
             override fun run() {
                 if (bluetoothSocket?.isConnected == false) {
-                    // Connection lost
                     Log.d("BluetoothInterface", "Connection lost")
                     context.runOnUiThread {
-                        context.updateStatusBarColor(Color.RED) // Set status bar to red on disconnection
+                        context.updateStatusBarColor(Color.RED)
                     }
                 }
-                // Continue polling
                 handler.postDelayed(this, pollingInterval)
             }
         }, pollingInterval)
@@ -84,6 +127,12 @@ class BluetoothInterface(private val context: MainActivity) {
     @JavascriptInterface
     fun sendData(data: String) {
         Log.d("BluetoothInterface", "Sending data: $data")
+
+        if (bluetoothSocket == null || !bluetoothSocket!!.isConnected) {
+            Log.e("BluetoothInterface", "Cannot send data: Bluetooth is disconnected")
+            return
+        }
+
         try {
             outputStream?.write(data.toByteArray())
         } catch (e: IOException) {
@@ -102,6 +151,11 @@ class BluetoothInterface(private val context: MainActivity) {
         } catch (e: IOException) {
             Log.e("BluetoothInterface", "Failed to disconnect", e)
         }
+    }
+
+    @JavascriptInterface
+    fun isConnected(): Boolean {
+        return bluetoothSocket?.isConnected == true
     }
 
     private fun hasBluetoothPermissions(): Boolean {

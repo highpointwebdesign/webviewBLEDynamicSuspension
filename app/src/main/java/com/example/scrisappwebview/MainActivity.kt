@@ -13,30 +13,32 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
-import com.example.scrisappwebview.R.id
 import android.graphics.Color
-import android.view.WindowManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import android.widget.Toast
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var bluetoothAdapter: BluetoothAdapter
+    private lateinit var bluetoothInterface: BluetoothInterface // Save the BluetoothInterface instance
     private val devicesList = mutableListOf<BluetoothDevice>()
+
+    // Declare myWebView at the class level
+    private lateinit var myWebView: WebView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         // Initialize WebView
-        val myWebView: WebView = findViewById(R.id.webview)
+        myWebView = findViewById(R.id.webview) // Initialize here
         val webSettings: WebSettings = myWebView.settings
         webSettings.javaScriptEnabled = true
         myWebView.webViewClient = WebViewClient()
 
-        // Add the JavaScript interface
-        myWebView.addJavascriptInterface(BluetoothInterface(this), "BluetoothInterface")
+        // Initialize BluetoothInterface and attach it to WebView
+        bluetoothInterface = BluetoothInterface(this, myWebView)
+        myWebView.addJavascriptInterface(bluetoothInterface, "BluetoothInterface")
 
         // Load the HTML file
         myWebView.loadUrl("file:///android_asset/index.html")
@@ -65,6 +67,7 @@ class MainActivity : AppCompatActivity() {
     fun updateStatusBarColor(color: Int) {
         window.statusBarColor = color
     }
+
     // Helper function to check permissions
     private fun hasPermissions(permissions: Array<String>): Boolean {
         for (permission in permissions) {
@@ -88,9 +91,8 @@ class MainActivity : AppCompatActivity() {
                     val device: BluetoothDevice? =
                         intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
                     device?.let {
-                        devicesList.add(it)
-                        Toast.makeText(context, "Discovered: ${it.name} (${it.address})", Toast.LENGTH_SHORT).show()
-                        // Add the device to a list for user selection
+                        // Add the device to the BluetoothInterface to pass it to the WebView
+                        bluetoothInterface.addDiscoveredDevice(it) // Use the instance of BluetoothInterface
                     }
                 }
             }
@@ -103,12 +105,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val myWebView: WebView = findViewById(R.id.webview)
         if (myWebView.canGoBack()) {
             myWebView.goBack() // Go back to the previous page
         } else {
             super.onBackPressed() // Exit the app if there's no page to go back to
         }
     }
-
 }
