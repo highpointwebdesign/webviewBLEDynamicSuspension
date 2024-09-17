@@ -36,14 +36,43 @@ function updatePitch() {
   }
 }
 
+// Function to handle real device orientation data
+function handleOrientation(event) {
+  pitch = event.beta;  // Between -180 and 180 degrees
+  roll = event.gamma;  // Between -90 and 90 degrees
+  
+  // Log the values to the console for debugging
+  console.log(`Device Pitch: ${pitch}, Device Roll: ${roll}`);
+  
+  // Update the UI with the real sensor data
+  updatePitch();
+  updateRoll();
+}
+
+// Check if the browser supports DeviceOrientation API and request permission if needed (on iOS)
+function initDeviceOrientation() {
+  if (typeof DeviceMotionEvent.requestPermission === 'function') {
+    DeviceMotionEvent.requestPermission()
+      .then(response => {
+        if (response === 'granted') {
+          window.addEventListener('deviceorientation', handleOrientation);
+        }
+      })
+      .catch(console.error);
+      alert(console.error);
+  } else {
+    // For other browsers that don't require permission
+    window.addEventListener('deviceorientation', handleOrientation);
+  }
+}
+
+// Simulated values (in case the device does not support the DeviceOrientation API)
 function simulateRoll() {
-  // Simulate changes in roll
   roll = (Math.random() * 90 - 45); // Mock data: roll between -45 and 45 degrees
   updateRoll();
 }
 
 function simulatePitch() {
-  // Simulate changes in pitch
   pitch = (Math.random() * 90 - 45); // Mock data: pitch between -45 and 45 degrees
   updatePitch();
 }
@@ -51,7 +80,13 @@ function simulatePitch() {
 window.onload = function() {
   updateRoll();
   updatePitch();
+  
+  // Try to initialize the real device orientation if available
+  initDeviceOrientation();
+  
+  // Fall back to simulated values if device orientation is not available or denied
   setInterval(simulateRoll, 500); // Update roll every 0.5 second
   setInterval(simulatePitch, 500); // Update pitch every 0.5 second
-  console.log('pitch roll gauges script init');
+
+  console.log('pitch roll gauges script initialized');
 };

@@ -1,233 +1,361 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="hydrated">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Drive Control Panel</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/app.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#000000">
+    <title>Dynamic Drive</title>
+    <meta name="description" content="Mobilekit HTML Mobile UI Kit">
+    <meta name="keywords" content="bootstrap 5, mobile template, cordova, phonegap, mobile, html">
+    <link rel="icon" type="image/png" href="images/favicon.png" sizes="32x32">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/192x192.png">
+    <link rel="stylesheet" href="css/mk-style.css">
+
+    <!-- home page -->
     <link rel="stylesheet" href="css/pitchrollgauges.css">
-    <!-- Bootstrap Icons for the question mark -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <style>
+
+    
+    <!-- Bootstrap Icons -->
+  <link href="fontawesome/css/fontawesome.css" rel="stylesheet" />
+  <link href="fontawesome/css/brands.css" rel="stylesheet" />
+  <link href="fontawesome/css/solid.css" rel="stylesheet" />
+    <style data-styles="">
         #bluetoothdevicesList {
     list-style: none;
     padding: 0;
 }
 
-.device-item {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-}
 
-.device-item:hover {
-    background-color: #f0f0f0;
-}
-</style>
-</head>
-<body>
 
-<!-- Top Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <!-- Menu Icon -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <a class="navbar-brand" href="#">Dynamic Drive</a>
-    </div>
-</nav>
-
-<!-- Offcanvas Menu -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menu</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <ul class="list-group">
-            <li class="list-group-item">
-                <a href="index.html">Dashboard</a>
-            </li>
-            <li class="list-group-item">
-                <a href="suspension.html">Suspension</a>
-            </li>
-            <li class="list-group-item">
-                <a href="lights.html">Lights</a>
-            </li>
-            <li class="list-group-item">
-                <a href="setup.html">Setup</a>
-            </li>
-            <li class="list-group-item">
-                <a href="blank_page.html">Blank Page</a>
-            </li>
-            <li class="list-group-item">
-                <a href="mk-suspension.html">MobileKit</a>
-            </li>
-        </ul>
-    </div>
-</div>
-
-<!-- Main Content -->
-<div class="container my-4">
-    <h3>Dashboard</h3>
-    <!-- Updated Responsive Gauge Container -->
-    <div class="gauge-container">
-        <!-- Roll Circle -->
-        <div class="circle-container">
-            <div class="circle" id="roll-circle">
-                <div class="sky"></div>
-                <div class="ground"></div>
-                <div class="groundneedle"></div>
-                <div class="skyneedle"></div>
-                <img src="images/truck-side.png" class="truck-icon-side" alt="Truck Side">
-            </div>
-            <div class="degree-display" id="roll-degree">0°</div>
-        </div>
-
-        <!-- Pitch Circle -->
-        <div class="circle-container">
-            <div class="circle" id="pitch-circle">
-                <div class="sky"></div>
-                <div class="ground"></div>
-                <div class="groundneedle"></div>
-                <div class="skyneedle"></div>
-                <img src="images/truck-front.png" class="truck-icon-front" alt="Truck Front">
-            </div>
-            <div class="degree-display" id="pitch-degree">0°</div>
-        </div>
-    </div>
-</div>
-
-<div class="container my-4">
-    <div class="d-grid gap-2">
-        <p>Placeholder for MPU6050 data and chassis orientation visualization.</p>
-        <button class="btn btn-success" type="button" onclick="connectToESP32()">Connect to ESP32</button>
-        <button class="btn btn-warning" type="button" onclick="sendDataToESP32('command', 'test')">Send Test Data</button>
-        <button class="btn btn-info" type="button" onclick="disconnectFromESP32()">Disconnect</button>
-        <button onclick="startBluetoothDiscovery()">Discover Devices</button>
+        ion-icon {visibility:hidden}
+        .hydrated {visibility:inherit}
+    </style>
     
+</head>
+
+<body class="">
+
+    <!-- loader -->
+   <!--  <div id="loader">
+        <div class="spinner-border text-primary" role="status"></div>
+    </div> -->
+    <!-- * loader -->
+
+    <!-- App Header -->
+    <div class="appHeader bg-primary scrolled">
+        <div class="left">
+            <a href="#" class="headerButton" data-bs-toggle="offcanvas" data-bs-target="#sidebarPanel">
+                <ion-icon name="menu-outline" role="img" class="md hydrated" aria-label="menu outline"></ion-icon>
+            </a>
+        </div>
+        <div class="pageTitle">
+            Dynamic Drive
+        </div>
+        <!-- <div class="right">
+            <a href="#" class="headerButton toggle-searchbox">
+                <ion-icon name="search-outline" role="img" class="md hydrated" aria-label="search outline"></ion-icon>
+            </a>
+        </div> -->
     </div>
-</div>
+    <!-- * App Header -->
 
-<div class="container my-4">
-    <div class="d-grid gap-2">
-        <ul id="deviceList"></ul>
+
+    <!-- App Capsule -->
+    <div id="appCapsule">
+
+        <div class="header-large-title">
+            <h1 class="title">Dashboard</h1>
+        </div>
+
+        <div class="section mt-3 mb-3">
+            <div class="card">
+                <!-- <img src="images/3qtr-Chassis-suspension.jpg" class="card-img-top" alt="image"> -->
+                <div class="card-body">
+                    <!-- <h6 class="card-subtitle">Ride Height</h6> -->
+                    <h2 class="title">Ride Height Control</h2>
+                            <p class="text">Set Suspension Travel Limits</p>
+                    <!-- <h5 class="card-title">Ride Height </h5> -->
+                                        
+                    <div class="row">
+                        <div class="col-6 text-center mb-2">
+                           
+                            <div class="gauge-container">
+                                <!-- Roll Circle -->
+                                <div class="circle-container">
+                                    <div class="circle" id="roll-circle">
+                                        <div class="sky"></div>
+                                        <div class="ground"></div>
+                                        <div class="groundneedle"></div>
+                                        <div class="skyneedle"></div>
+                                        <img src="images/truck-side.png" class="truck-icon-side" alt="Truck Side">
+                                    </div>
+                                    <div class="degree-display" id="roll-degree">0°</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-6 text-center mb-2">
+                            <div class="gauge-container">
+                                <!-- Pitch Circle -->
+                                <div class="circle-container">
+                                    <div class="circle" id="pitch-circle">
+                                        <div class="sky"></div>
+                                        <div class="ground"></div>
+                                        <div class="groundneedle"></div>
+                                        <div class="skyneedle"></div>
+                                        <img src="images/truck-front.png" class="truck-icon-front" alt="Truck Front">
+                                    </div>
+                                    <div class="degree-display" id="pitch-degree">0°</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                <!-- </div>
+            </div>
+        </div>
+         
+    <!-- * App Capsule -->
+
+    <!-- app footer -->
+    <div class="appFooter">
+        <div class="footer-title">
+            Copyright &copy; DynamicDrive <span class="yearNow">2024</span>.<br/>All Rights Reserved.
+        </div>
+        <div>DynamicDrive</div>
+        <em>Bringing Realism to Every <span id="actionWord" style="font-weight:bold; text-decoration: underline ;">Movement</span>.</em>
     </div>
-</div>
-<!-- <div class="d-grid gap-2">
-  
-</div> -->
+    <!-- * app footer -->
 
-
-<!-- <footer class="footer">
-    <div class="container">
-      <p class="mb-0">Savage Cat Solutions &copy;2020 - <span id="currentYear"></span></p>
+    <!-- App Bottom Menu -->
+    <div class="appBottomMenu">
+        <a href="index.html" class="item active">
+            <div class="col">
+                <i class="fa-solid fa-truck-monster"></i>
+            </div>
+        </a>
+        <a href="suspension.html" class="item">
+            <div class="col">
+                <i class="fa-solid fa-sliders"></i>
+            </div>
+        </a>
+        <a href="lights.html" class="item">
+            <div class="col">
+                <i class="fa-solid fa-lightbulb"></i>
+                <span class="badge badge-danger">5</span>
+            </div>
+        </a>
+        <a href="setup.html" class="item">
+            <div class="col">
+                <i class="fa-solid fa-gear"></i>
+            </div>
+        </a>
+        <a href="whats-new.html" class="item" data-bs-toggle="offcanvas">
+            <div class="col">
+                <i class="fa-solid fa-pizza-slice"></i>
+            </div>
+        </a>
     </div>
-  </footer> -->
-<!-- Bootstrap 5 JS and dependencies (Popper) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<!-- script for the pitch/roll gauges -->
-<script src="js/pitchrollgauges.js"></script>
-<script>
-    // Initialize all tooltips
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl, {
-            trigger: 'click'
-        })
-    });
+    <!-- * App Bottom Menu -->
 
-    function init(){
-        getCurrentYearForCopy();
-		// connectToESP32();
-    }
+    <!-- App Sidebar -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarPanel">
+        <div class="offcanvas-body">
+            <!-- profile box -->
+            <div class="profileBox">
+                <div class="image-wrapper">
+                    <img src="images/avatar1.jpg" alt="image" class="imaged rounded">
+                </div>
+                <div class="in">
+                    <strong>Julian Gruber</strong>
+                    <div class="text-muted">
+                        <ion-icon name="location" role="img" class="md hydrated" aria-label="location"></ion-icon>
+                        California
+                    </div>
+                </div>
+                <a href="#" class="close-sidebar-button" data-bs-dismiss="offcanvas">
+                    <ion-icon name="close" role="img" class="md hydrated" aria-label="close"></ion-icon>
+                </a>
+            </div>
+            <!-- * profile box -->
 
-    function getCurrentYearForCopy(){
-        const d = new Date();
-        let year = d.getFullYear();
-        document.getElementById("currentYear").innerHTML = year;
-    }
+            <!-- offcanvas -->
+            <ul class="listview flush transparent no-line image-listview mt-2">
+                <li>
+                    <a href="index.html" class="item">
+                        <div class="icon-box bg-primary">
+                            <i class="fa-solid fa-truck-monster"></i>
+                        </div>
+                        <div class="in">
+                            Home
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="suspension.html" class="item">
+                        <div class="icon-box bg-primary">
+                            <i class="fa-solid fa-sliders"></i>
+                        </div>
+                        <div class="in">
+                            Suspension
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="lights.html" class="item">
+                        <div class="icon-box bg-primary">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <div class="in">
+                            <div>Lights</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="setup.html" class="item">
+                        <div class="icon-box bg-primary">
+                            <i class="fa-solid fa-gear"></i>
+                        </div>
+                        <div class="in">
+                            <div>Setup</div>
+                            <span class="badge badge-danger">5</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="whats-new.html" class="item">
+                        <div class="icon-box bg-primary">
+                            <i class="fa-solid fa-pizza-slice"></i>
+                        </div>
+                        <div class="in">
+                            <div>What's New</div>
+                            <span class="badge badge-danger">5</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <div class="item">
+                        <div class="icon-box bg-primary">
+                            <ion-icon name="moon-outline" role="img" class="md hydrated" aria-label="moon outline"></ion-icon>
+                        </div>
+                        <div class="in">
+                            <div>Dark Mode</div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input dark-mode-switch" type="checkbox" id="darkmodesidebar">
+                                <label class="form-check-label" for="darkmodesidebar"></label>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!-- off canvas -->
+        </div>
+        <!-- sidebar buttons -->
+        <!-- <div class="sidebar-buttons">
+            <a href="#" class="button">
+                <ion-icon name="person-outline" role="img" class="md hydrated" aria-label="person outline"></ion-icon>
+            </a>
+            <a href="#" class="button">
+                <ion-icon name="archive-outline" role="img" class="md hydrated" aria-label="archive outline"></ion-icon>
+            </a>
+            <a href="#" class="button">
+                <ion-icon name="settings-outline" role="img" class="md hydrated" aria-label="settings outline"></ion-icon>
+            </a>
+            <a href="#" class="button">
+                <ion-icon name="log-out-outline" role="img" class="md hydrated" aria-label="log out outline"></ion-icon>
+            </a>
+        </div> -->
+        <!-- * sidebar buttons -->
+    </div>
+    <!-- * App Sidebar -->
 
-    // Functions to connect and disconnect from Bluetooth device
-        function startBluetoothDiscovery() {
-            document.getElementById("deviceList").innerHTML = "<em>Searching...</em>"
-            BluetoothInterface.startDeviceDiscovery();
+    <!-- welcome notification  -->
+    <div id="notification-welcome" class="notification-box">
+        <div class="notification-dialog android-style">
+            <div class="notification-header">
+                <div class="in">
+                    <img src="images/dynamic_drive_logo.jpg" alt="image" class="imaged w24">
+                    <strong>DynamicDrive</strong>
+                    <span>just now</span>
+                </div>
+                <a href="#" class="close-button">
+                    <ion-icon name="close" role="img" class="md hydrated" aria-label="close"></ion-icon>
+                </a>
+            </div>
+            <div class="notification-content">
+                <div class="in">
+                    <h3 class="subtitle">Welcome to DynamicDrive</h3>
+                    <div class="text">
+                        Bringing Realism to Every Motion.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- * welcome notification -->
+
+    <!-- ============== Js Files ==============  -->
+    <!-- Bootstrap -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <!-- Splide -->
+    <script src="js/splide.min.js"></script>
+    <!-- ProgressBar js -->
+    <script src="js/progressbar.min.js"></script>
+    <!-- script for the pitch/roll gauges -->
+    <script src="js/pitchrollgauges.js"></script>
+    <!-- Base Js File -->
+    <!-- <script src="js/mk-base.js_"></script> -->
+
+    <script>
+        // Trigger welcome notification after 5 seconds
+        // setTimeout(() => {
+        //     notification('notification-welcome', 5000);
+        // }, 2000);
+        
+
+        const actionWords = ['Climb', 'Crawl', 'Drift', 'Trail', 'Race', 'Challenge', 'Experience', 'Scramble', 'Slide', 'Path', 'Dash', 'Encounter'];
+        const colors = ['#FF4500', '#228B22', '#1E90FF', '#FFD700', '#FF6347', '#00CED1', '#FF8C00', '#8A2BE2', '#6495ED', '#32CDFF', '#FF6347', '#FF00FF'];
+
+
+        let index = 0;
+
+        function rotateWords() {
+            const actionWordElement = document.getElementById('actionWord');
+            actionWordElement.innerText = actionWords[index];
+            actionWordElement.style.color = colors[index];  // Change color as the word cycles
+            index = (index + 1) % actionWords.length;
         }
 
-        function handleDiscoveredDevices(devicesJson) {
-            const devices = JSON.parse(devicesJson);
-            const deviceList = document.getElementById("deviceList");
+        setInterval(rotateWords, 500);  // Rotate every 2 seconds
 
-            // Clear any previous entries
-            deviceList.innerHTML = "";
-
-            // Create list items for each device
-            devices.forEach(device => {
-                const listItem = document.createElement("li");
-                listItem.textContent = `${device.name} (${device.address})`;
-                // listItem.textContent = `${device.name}`;
-
-                // Add a click listener to connect to the device when clicked
-                listItem.addEventListener("click", () => {
-                    BluetoothInterface.connectToDevice(device.address);
-                });
-
-                deviceList.appendChild(listItem);
+        // Initialize all popovers
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl, {
+                trigger: 'click'
             });
-        }
+        });
+
+        // Close all popovers before opening a new one
+        popoverTriggerList.forEach(function (popoverTriggerEl, index) {
+            popoverTriggerEl.addEventListener('click', function () {
+                popoverList.forEach(function (popover, i) {
+                    if (i !== index) {
+                        popover.hide(); // Hide all other popovers
+                    }
+                });
+            });
+        });
 
 
 
-        function connectToDevice(address) {
-            console.log("Attempting to connect to device:", address);
-            BluetoothInterface.connectToDevice(address);
-        }
 
 
-
-    function handleBluetoothData(responseData) {
-        console.log("Data from ESP32:", responseData);
-        // Process the data received from ESP32
-    }
-
-
-    function connectToESP32() {
-
-        if (BluetoothInterface.isConnected()) {
-            console.log("Already connected to ESP32.");
-            return; // Skip connection if already connected
-        } else {
-            const macAddress = "08:A6:F7:B1:A4:D6"; // Replace with your actual ESP32 MAC address
-            console.log("Attempting to connect to macAddress: " + macAddress);
-            // alert("Attempting to connect to: " + macAddress);
-            BluetoothInterface.connectToDevice(macAddress);
-        }
-    }
-
-    function sendDataToESP32(key, value) {
-        console.log(key)
-        console.log(value);
-        console.log("Send button clicked");
-        const data = JSON.stringify({ [key]: value });
-        BluetoothInterface.sendData(data);
-    }
-
-    function disconnectFromESP32() {
-        console.log("Disconnect button clicked");
-        BluetoothInterface.disconnect();
-    }
-
-    function resetGyro() {
-        const key = "mpureset";
-        const value = 1;
-        console.log("Reset Gyro button clicked");
-        const data = JSON.stringify({ [key]: value });
-        BluetoothInterface.sendData(data);
-    }
-
-    init();
-</script>
+    </script>
 </body>
 </html>
