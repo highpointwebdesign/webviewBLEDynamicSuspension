@@ -1,92 +1,81 @@
-let roll = 0; // Initial roll angle (left and right)
-let pitch = 0; // Initial pitch angle (up and down)
+let roll = 0; // Initial roll angle
+let pitch = 0; // Initial pitch angle
+let rollHome = 0; // Home roll angle
+let pitchHome = 0; // Home pitch angle
+let usingMockData = true; // Flag to check if using mock data
 
-function createLines(containerId) {
-  const lineContainer = document.getElementById(containerId);
-  if (!lineContainer) {
-    console.error(`Element with ID '${containerId}' not found.`);
-    return;
-  }
-  for (let i = 5; i <= 90; i += 5) {
-    createLine(lineContainer, i);
-    createLine(lineContainer, -i);
-  }
-}
-
-function createLine(container, angle) {
-  const line = document.createElement('div');
-  line.className = 'line';
-  line.style.transform = `translateX(-25%) rotate(${angle}deg)`;
-  container.appendChild(line);
-}
-
+// Update roll and pitch to show in the gauges
 function updateRoll() {
   const circle = document.getElementById('roll-circle');
   if (circle) {
-    circle.style.transform = `rotate(${roll}deg)`;
-    document.getElementById('roll-degree').innerText = `${Math.abs(roll).toFixed(1)}°`;
+    const adjustedRoll = roll - rollHome; // Adjust roll by home position
+    circle.style.transform = `rotate(${adjustedRoll}deg)`;
+    document.getElementById('roll-degree').innerText = `${Math.abs(adjustedRoll).toFixed(1)}°`;
   }
 }
 
 function updatePitch() {
   const circle = document.getElementById('pitch-circle');
   if (circle) {
-    circle.style.transform = `rotate(${pitch}deg)`;
-    document.getElementById('pitch-degree').innerText = `${Math.abs(pitch).toFixed(1)}°`;
+    const adjustedPitch = pitch - pitchHome; // Adjust pitch by home position
+    circle.style.transform = `rotate(${adjustedPitch}deg)`;
+    document.getElementById('pitch-degree').innerText = `${Math.abs(adjustedPitch).toFixed(1)}°`;
   }
 }
 
-// Function to handle real device orientation data
-function handleOrientation(event) {
-  pitch = event.beta;  // Between -180 and 180 degrees
-  roll = event.gamma;  // Between -90 and 90 degrees
-  
-  // Log the values to the console for debugging
-  console.log(`Device Pitch: ${pitch}, Device Roll: ${roll}`);
-  
-  // Update the UI with the real sensor data
-  updatePitch();
-  updateRoll();
-}
-
-// Check if the browser supports DeviceOrientation API and request permission if needed (on iOS)
-function initDeviceOrientation() {
-  if (typeof DeviceMotionEvent.requestPermission === 'function') {
-    DeviceMotionEvent.requestPermission()
-      .then(response => {
-        if (response === 'granted') {
-          window.addEventListener('deviceorientation', handleOrientation);
-        }
-      })
-      .catch(console.error);
-      alert(console.error);
-  } else {
-    // For other browsers that don't require permission
-    window.addEventListener('deviceorientation', handleOrientation);
-  }
-}
-
-// Simulated values (in case the device does not support the DeviceOrientation API)
+// Simulated values for fallback
 function simulateRoll() {
-  roll = (Math.random() * 90 - 45); // Mock data: roll between -45 and 45 degrees
+  roll = (Math.random() * 90 - 45); // Mock data between -45 and 45 degrees
   updateRoll();
 }
 
 function simulatePitch() {
-  pitch = (Math.random() * 90 - 45); // Mock data: pitch between -45 and 45 degrees
+  pitch = (Math.random() * 90 - 45); // Mock data between -45 and 45 degrees
   updatePitch();
 }
 
-window.onload = function() {
+// Set the current roll and pitch as the home (neutral) position
+function resetGyroPosition() {
+  rollHome = roll;
+  pitchHome = pitch;
+  console.log('Home position set:', { rollHome, pitchHome });
+}
+
+// Function to handle real device orientation
+function handleDeviceOrientation(event) {
+  roll = event.gamma || 0;  // 'gamma' is the left/right tilt in degrees
+  pitch = event.beta || 0;  // 'beta' is the front/back tilt in degrees
+  usingMockData = false; // Disable mock data as we are getting real sensor data
   updateRoll();
   updatePitch();
-  
-  // Try to initialize the real device orientation if available
+}
+
+// Try to initialize the real device orientation
+function initDeviceOrientation() {
+  if (window.DeviceOrientationEvent) {
+    window.addEventListener('deviceorientation', handleDeviceOrientation);
+  } else {
+    console.log("Device orientation not supported.");
+    startMockData(); // If not supported, use mock data
+  }
+}
+
+// Start using mock data if the real sensor data isn't available
+function startMockData() {
+  usingMockData = true;
+  setInterval(simulateRoll, 1500); // Update roll every 1 second
+  setInterval(simulatePitch, 1500); // Update pitch every 1 second
+}
+
+window.onload = function () {
+  updateRoll();
+  updatePitch();
+
+  // Initialize device orientation or fall back to mock data
   initDeviceOrientation();
-  
-  // Fall back to simulated values if device orientation is not available or denied
-  setInterval(simulateRoll, 500); // Update roll every 0.5 second
-  setInterval(simulatePitch, 500); // Update pitch every 0.5 second
+
+  // Set up the Set Home button
+  document.getElementById('resetGyro').addEventListener('click', resetGyroPosition);
 
   console.log('pitch roll gauges script initialized');
 };

@@ -44,13 +44,13 @@
     <!-- * loader -->
 
     <!-- App Header -->
-    <div class="appHeader bg-primary scrolled">
+    <div class="appHeader bg-primary">
         <div class="left">
             <a href="#" class="headerButton" data-bs-toggle="offcanvas" data-bs-target="#sidebarPanel">
                 <ion-icon name="menu-outline" role="img" class="md hydrated" aria-label="menu outline"></ion-icon>
             </a>
         </div>
-        <div class="pageTitle">
+        <div class="pageTitle right">
             Dynamic Drive
         </div>
         <!-- <div class="right">
@@ -74,56 +74,70 @@
                 <!-- <img src="images/3qtr-Chassis-suspension.jpg" class="card-img-top" alt="image"> -->
                 <div class="card-body">
                     <!-- <h6 class="card-subtitle">Ride Height</h6> -->
-                    <h2 class="title">Ride Height Control</h2>
-                            <p class="text">Set Suspension Travel Limits</p>
+                    <h2 class="card-title">Real-Time Pitch and Roll Telemetry</h2>
+                            
                     <!-- <h5 class="card-title">Ride Height </h5> -->
                                         
                     <div class="row">
                         <div class="col-6 text-center mb-2">
-                           
                             <div class="gauge-container">
                                 <!-- Roll Circle -->
-                                <div class="circle-container">
-                                    <div class="circle" id="roll-circle">
-                                        <div class="sky"></div>
-                                        <div class="ground"></div>
-                                        <div class="groundneedle"></div>
-                                        <div class="skyneedle"></div>
-                                        <img src="images/truck-side.png" class="truck-icon-side" alt="Truck Side">
-                                    </div>
-                                    <div class="degree-display" id="roll-degree">0°</div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-6 text-center mb-2">
-                            <div class="gauge-container">
-                                <!-- Pitch Circle -->
                                 <div class="circle-container">
                                     <div class="circle" id="pitch-circle">
                                         <div class="sky"></div>
                                         <div class="ground"></div>
                                         <div class="groundneedle"></div>
                                         <div class="skyneedle"></div>
-                                        <img src="images/truck-front.png" class="truck-icon-front" alt="Truck Front">
+                                        <img src="images/truck-side.png" class="truck-icon-side" alt="Truck Side">
                                     </div>
                                     <div class="degree-display" id="pitch-degree">0°</div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-6 text-center mb-2">
+                            <div class="gauge-container">
+                                <!-- Pitch Circle -->
+                                <div class="circle-container">
+                                    <div class="circle" id="roll-circle">
+                                        <div class="sky"></div>
+                                        <div class="ground"></div>
+                                        <div class="groundneedle"></div>
+                                        <div class="skyneedle"></div>
+                                        <img src="images/truck-front.png" class="truck-icon-front" alt="Truck Front">
+                                    </div>
+                                    <div class="degree-display" id="roll-degree">0°</div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text">Monitor your vehicle's real-time pitch and roll telemetry with dynamic visual displays, giving you instant feedback on its movement and angle in any terrain.</p>
+                    </div>
 
+                    <div class="row">
+                         <div class="col-12 text-center mb-2">
+                            <button id="setHomeBtn" class="btn btn-primary btn-block">Reset Gyro</button>
+                        </div>
+                        <div class="col-12 text-center mb-2">
+                            <button class="btn btn-success btn-block" type="button" onclick="startBluetoothDiscovery()">Discover BT Devices</button>
                         </div>
                     </div>
 
-                <!-- </div>
+                    <div class="container my-4">
+                        <div class="d-grid gap-2">
+                            <ul id="deviceList" class="listview simple-listview"><li>hello</li><li>World</li><li>How are ya</li></ul>
+                        </div>
+                    </div>
+
+                </div>    
             </div>
-        </div>
+        </div> 
          
     <!-- * App Capsule -->
+    <!-- </div> -->
 
     <!-- app footer -->
     <div class="appFooter">
         <div class="footer-title">
-            Copyright &copy; DynamicDrive <span class="yearNow">2024</span>.<br/>All Rights Reserved.
+            Copyright &copy; DynamicDrive <span class="thisYear">2024</span>.<br/>All Rights Reserved.
         </div>
         <div>DynamicDrive</div>
         <em>Bringing Realism to Every <span id="actionWord" style="font-weight:bold; text-decoration: underline ;">Movement</span>.</em>
@@ -131,33 +145,43 @@
     <!-- * app footer -->
 
     <!-- App Bottom Menu -->
-    <div class="appBottomMenu">
+    <div class="appBottomMenu bg-primary text-light">
+
         <a href="index.html" class="item active">
             <div class="col">
-                <i class="fa-solid fa-truck-monster"></i>
+                <i class="fa-solid fa-house"></i>
+                <!-- <strong>Dashboard</strong> -->
             </div>
         </a>
+        
         <a href="suspension.html" class="item">
             <div class="col">
-                <i class="fa-solid fa-sliders"></i>
+                <i class="fa-solid fa-truck-monster"></i>
+                <!-- <strong>Suspension</strong> -->
             </div>
         </a>
+        
         <a href="lights.html" class="item">
             <div class="col">
                 <i class="fa-solid fa-lightbulb"></i>
-                <span class="badge badge-danger">5</span>
+                <!-- <span class="badge badge-danger">5</span> -->
             </div>
         </a>
+
         <a href="setup.html" class="item">
             <div class="col">
                 <i class="fa-solid fa-gear"></i>
+                <!-- <strong>Setup</strong> -->
             </div>
         </a>
-        <a href="whats-new.html" class="item" data-bs-toggle="offcanvas">
+        
+        <a href="whats-new.html" class="item">
             <div class="col">
                 <i class="fa-solid fa-pizza-slice"></i>
+                <!-- <strong>What's New</strong> -->
             </div>
         </a>
+        
     </div>
     <!-- * App Bottom Menu -->
 
@@ -166,14 +190,14 @@
         <div class="offcanvas-body">
             <!-- profile box -->
             <div class="profileBox">
-                <div class="image-wrapper">
+                <!-- <div class="image-wrapper">
                     <img src="images/avatar1.jpg" alt="image" class="imaged rounded">
-                </div>
+                </div> -->
                 <div class="in">
-                    <strong>Julian Gruber</strong>
+                    <strong><span id="esp32hostname"></span></strong>
                     <div class="text-muted">
-                        <ion-icon name="location" role="img" class="md hydrated" aria-label="location"></ion-icon>
-                        California
+                        <!-- <ion-icon name="location" role="img" class="md hydrated" aria-label="location"></ion-icon> -->
+                        <span id="esp32hostid">
                     </div>
                 </div>
                 <a href="#" class="close-sidebar-button" data-bs-dismiss="offcanvas">
@@ -187,7 +211,7 @@
                 <li>
                     <a href="index.html" class="item">
                         <div class="icon-box bg-primary">
-                            <i class="fa-solid fa-truck-monster"></i>
+                            <i class="fa-solid fa-house"></i>
                         </div>
                         <div class="in">
                             Home
@@ -197,23 +221,23 @@
                 <li>
                     <a href="suspension.html" class="item">
                         <div class="icon-box bg-primary">
-                            <i class="fa-solid fa-sliders"></i>
+                            <i class="fa-solid fa-truck-monster"></i>
                         </div>
                         <div class="in">
                             Suspension
                         </div>
                     </a>
                 </li>
-                <li>
-                    <a href="lights.html" class="item">
+               <!--  <li>
+                    <a href="#" class="item" id="resetGyro">
                         <div class="icon-box bg-primary">
-                            <i class="fa-solid fa-lightbulb"></i>
+                            <i class="fa-solid fa-recycle"></i>
                         </div>
                         <div class="in">
-                            <div>Lights</div>
+                            <div>Reset Gyro</div>
                         </div>
                     </a>
-                </li>
+                </li> -->
                 <li>
                     <a href="setup.html" class="item">
                         <div class="icon-box bg-primary">
@@ -221,7 +245,7 @@
                         </div>
                         <div class="in">
                             <div>Setup</div>
-                            <span class="badge badge-danger">5</span>
+                            <!-- <span class="badge badge-danger">5</span> -->
                         </div>
                     </a>
                 </li>
@@ -232,11 +256,11 @@
                         </div>
                         <div class="in">
                             <div>What's New</div>
-                            <span class="badge badge-danger">5</span>
+                            <!-- <span class="badge badge-danger">5</span> -->
                         </div>
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <div class="item">
                         <div class="icon-box bg-primary">
                             <ion-icon name="moon-outline" role="img" class="md hydrated" aria-label="moon outline"></ion-icon>
@@ -249,7 +273,7 @@
                             </div>
                         </div>
                     </div>
-                </li>
+                </li> -->
             </ul>
             <!-- off canvas -->
         </div>
@@ -310,52 +334,13 @@
     <script src="js/pitchrollgauges.js"></script>
     <!-- Base Js File -->
     <!-- <script src="js/mk-base.js_"></script> -->
+    <script src="js/app.js"></script>
 
     <script>
         // Trigger welcome notification after 5 seconds
         // setTimeout(() => {
         //     notification('notification-welcome', 5000);
         // }, 2000);
-        
-
-        const actionWords = ['Climb', 'Crawl', 'Drift', 'Trail', 'Race', 'Challenge', 'Experience', 'Scramble', 'Slide', 'Path', 'Dash', 'Encounter'];
-        const colors = ['#FF4500', '#228B22', '#1E90FF', '#FFD700', '#FF6347', '#00CED1', '#FF8C00', '#8A2BE2', '#6495ED', '#32CDFF', '#FF6347', '#FF00FF'];
-
-
-        let index = 0;
-
-        function rotateWords() {
-            const actionWordElement = document.getElementById('actionWord');
-            actionWordElement.innerText = actionWords[index];
-            actionWordElement.style.color = colors[index];  // Change color as the word cycles
-            index = (index + 1) % actionWords.length;
-        }
-
-        setInterval(rotateWords, 500);  // Rotate every 2 seconds
-
-        // Initialize all popovers
-        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-            return new bootstrap.Popover(popoverTriggerEl, {
-                trigger: 'click'
-            });
-        });
-
-        // Close all popovers before opening a new one
-        popoverTriggerList.forEach(function (popoverTriggerEl, index) {
-            popoverTriggerEl.addEventListener('click', function () {
-                popoverList.forEach(function (popover, i) {
-                    if (i !== index) {
-                        popover.hide(); // Hide all other popovers
-                    }
-                });
-            });
-        });
-
-
-
-
-
     </script>
 </body>
 </html>
