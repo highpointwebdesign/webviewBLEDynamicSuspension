@@ -22,11 +22,6 @@
   <link href="fontawesome/css/brands.css" rel="stylesheet" />
   <link href="fontawesome/css/solid.css" rel="stylesheet" />
     <style data-styles="">
-        #bluetoothdevicesList {
-            list-style: none;
-            padding: 0;
-        }
-
         ion-icon {visibility:hidden}
         .hydrated {visibility:inherit}
     </style>
@@ -49,7 +44,24 @@
     <div id="appCapsule">
 
         <div class="header-large-title">
-            <h1 class="title">Blank Page</h1>
+            <h1 class="title">Settings</h1>
+        </div>
+         <div class="section inset mt-2">
+            <div class="accordion" id="accordionHelp">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#help" aria-expanded="false">
+                            Help
+                        </button>
+                    </h2>
+                    <div id="help" class="accordion-collapse collapse" data-bs-parent="#accordionHelp" style="">
+                        <div class="accordion-body">
+                           Set the desired values such that the servos do not extend pass the mechanical limits of your setup. Each item below has a <i class="bi bi-question-circle"></i> you can click to see specific details about that setting. As you make changes, you should see the servo's responding in real-time. Once you are satisfied with the setting, click SAVE.
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
         </div>
 
         <div class="section mt-3 mb-3">
@@ -57,7 +69,7 @@
                 <!-- <img src="images/3qtr-Chassis-suspension.jpg" class="card-img-top" alt="image"> -->
                 <div class="card-body">
                     <!-- <h6 class="card-subtitle">Ride Height</h6> -->
-                    <h2 class="card-title">Section Heading</h2>
+                    <h2 class="card-title">Setup Wizard</h2>
                     <div class="mb-4">
                         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                           <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
@@ -105,11 +117,12 @@
     <!-- Splide -->
     <script src="js/splide.min.js"></script>
     <!-- ProgressBar js -->
-    <!-- <script src="js/progressbar.min.js"></script> -->
-    
+    <script src="js/progressbar.min.js"></script>
+    <!-- script for the pitch/roll gauges -->
+    <script src="js/pitchrollgauges.js"></script>
     <!-- Base Js File -->
     <!-- <script src="js/mk-base.js_"></script> -->
     <script src="js/app.js"></script>
-    <script src="js/lights.js"></script>
+    <script src="js/settings.js"></script>
 </body>
 </html>

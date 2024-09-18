@@ -23,11 +23,9 @@
   <link href="fontawesome/css/solid.css" rel="stylesheet" />
     <style data-styles="">
         #bluetoothdevicesList {
-    list-style: none;
-    padding: 0;
-}
-
-
+            list-style: none;
+            padding: 0;
+        }
 
         ion-icon {visibility:hidden}
         .hydrated {visibility:inherit}
@@ -44,21 +42,7 @@
     <!-- * loader -->
 
     <!-- App Header -->
-    <div class="appHeader bg-primary">
-        <div class="left">
-            <a href="#" class="headerButton" data-bs-toggle="offcanvas" data-bs-target="#sidebarPanel">
-                <ion-icon name="menu-outline" role="img" class="md hydrated" aria-label="menu outline"></ion-icon>
-            </a>
-        </div>
-        <div class="pageTitle right">
-            Dynamic Drive
-        </div>
-        <!-- <div class="right">
-            <a href="#" class="headerButton toggle-searchbox">
-                <ion-icon name="search-outline" role="img" class="md hydrated" aria-label="search outline"></ion-icon>
-            </a>
-        </div> -->
-    </div>
+    <div id="app-header-container"></div>
     <!-- * App Header -->
 
 
@@ -69,6 +53,24 @@
             <h1 class="title">Lights</h1>
         </div>
 
+         <div class="section inset mt-2">
+            <div class="accordion" id="accordionHelp">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#help" aria-expanded="false">
+                            Help
+                        </button>
+                    </h2>
+                    <div id="help" class="accordion-collapse collapse" data-bs-parent="#accordionHelp" style="">
+                        <div class="accordion-body">
+                           Set the desired values such that the servos do not extend pass the mechanical limits of your setup. Each item below has a <i class="bi bi-question-circle"></i> you can click to see specific details about that setting. As you make changes, you should see the servo's responding in real-time. Once you are satisfied with the setting, click SAVE.
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+
         <div class="section mt-3 mb-3">
             <div class="card">
                 <!-- <img src="images/3qtr-Chassis-suspension.jpg" class="card-img-top" alt="image"> -->
@@ -76,28 +78,12 @@
                     <!-- <h6 class="card-subtitle">Ride Height</h6> -->
                     <h2 class="card-title">Light Control</h2>
                     <div class="mb-4">
-                        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-                          <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
-                          <label class="btn btn-outline-primary" for="btncheck1">Checkbox 1</label>
-
-                          <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
-                          <label class="btn btn-outline-primary" for="btncheck2">Checkbox 2</label>
-
-                          <!-- <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
-                          <label class="btn btn-outline-primary" for="btncheck3">Checkbox 3</label> -->
-                        </div>
-                    </div>
-
-                    <div class="mb-4">
                         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                           <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-                          <label class="btn btn-outline-primary" for="btnradio1">Radio 1</label>
+                          <label class="btn btn-outline-primary" for="btnradio1">On</label>
 
                           <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                          <label class="btn btn-outline-primary" for="btnradio2">Radio 2</label>
-
-                          <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-                          <label class="btn btn-outline-primary" for="btnradio3">Radio 3</label>
+                          <label class="btn btn-outline-primary" for="btnradio2">Off</label>
                         </div>
                     </div>
 
@@ -112,195 +98,22 @@
                 </div>
             </div>
         </div>
-         
+    </div>
     <!-- * App Capsule -->
-
-
-    <!-- app footer -->
-    <div class="appFooter">
-        <div class="footer-title">
-            Copyright &copy; DynamicDrive <span class="yearNow">2024</span>.<br/>All Rights Reserved.
-        </div>
-        <div>DynamicDrive</div>
-        <em>Bringing Realism to Every <span id="actionWord" style="font-weight:bold; text-decoration: underline ;">Movement</span>.</em>
-    </div>
-    <!-- * app footer -->
-
+    
+    <!-- Footer Container -->
+    <div id="footer-container" style="padding-bottom: 56px !important;"></div>
+    
     <!-- App Bottom Menu -->
-    <div class="appBottomMenu bg-primary text-light">
-
-        <a href="index.html" class="item">
-            <div class="col">
-                <i class="fa-solid fa-house"></i>
-                <!-- <strong>Dashboard</strong> -->
-            </div>
-        </a>
-        
-        <a href="suspension.html" class="item">
-            <div class="col">
-                <i class="fa-solid fa-truck-monster"></i>
-                <!-- <strong>Suspension</strong> -->
-            </div>
-        </a>
-        
-       <a href="lights.html" class="item active">
-            <div class="col">
-                <i class="fa-solid fa-lightbulb"></i>
-                <!-- <span class="badge badge-danger">5</span> -->
-            </div>
-        </a>
-        
-        <a href="setup.html" class="item">
-            <div class="col">
-                <i class="fa-solid fa-gear"></i>
-                <!-- <strong>Setup</strong> -->
-            </div>
-        </a>
-        
-        <a href="whats-new.html" class="item">
-            <div class="col">
-                <i class="fa-solid fa-pizza-slice"></i>
-                <!-- <strong>What's New</strong> -->
-            </div>
-        </a>
-        
-    </div>
+    <div id="app-bottom-container"></div>
     <!-- * App Bottom Menu -->
 
     <!-- App Sidebar -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarPanel">
-        <div class="offcanvas-body">
-            <!-- profile box -->
-            <div class="profileBox">
-                <div class="image-wrapper">
-                    <img src="images/avatar1.jpg" alt="image" class="imaged rounded">
-                </div>
-                <div class="in">
-                    <strong>Julian Gruber</strong>
-                    <div class="text-muted">
-                        <ion-icon name="location" role="img" class="md hydrated" aria-label="location"></ion-icon>
-                        California
-                    </div>
-                </div>
-                <a href="#" class="close-sidebar-button" data-bs-dismiss="offcanvas">
-                    <ion-icon name="close" role="img" class="md hydrated" aria-label="close"></ion-icon>
-                </a>
-            </div>
-            <!-- * profile box -->
-
-            <!-- offcanvas -->
-            <ul class="listview flush transparent no-line image-listview mt-2">
-                <li>
-                    <a href="index.html" class="item">
-                        <div class="icon-box bg-primary">
-                            <i class="fa-solid fa-house"></i>
-                        </div>
-                        <div class="in">
-                            Home
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="suspension.html" class="item">
-                        <div class="icon-box bg-primary">
-                            <i class="fa-solid fa-truck-monster"></i>
-                        </div>
-                        <div class="in">
-                            Suspension
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="item" id="resetGyro">
-                        <div class="icon-box bg-primary">
-                            <i class="fa-solid fa-fa-atome"></i>
-                        </div>
-                        <div class="in">
-                            <div>Reset Gyro</div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="setup.html" class="item">
-                        <div class="icon-box bg-primary">
-                            <i class="fa-solid fa-gear"></i>
-                        </div>
-                        <div class="in">
-                            <div>Setup</div>
-                            <span class="badge badge-danger">5</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="whats-new.html" class="item">
-                        <div class="icon-box bg-primary">
-                            <i class="fa-solid fa-pizza-slice"></i>
-                        </div>
-                        <div class="in">
-                            <div>What's New</div>
-                            <span class="badge badge-danger">5</span>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <div class="item">
-                        <div class="icon-box bg-primary">
-                            <ion-icon name="moon-outline" role="img" class="md hydrated" aria-label="moon outline"></ion-icon>
-                        </div>
-                        <div class="in">
-                            <div>Dark Mode</div>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input dark-mode-switch" type="checkbox" id="darkmodesidebar">
-                                <label class="form-check-label" for="darkmodesidebar"></label>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <!-- off canvas -->
-        </div>
-        <!-- sidebar buttons -->
-        <!-- <div class="sidebar-buttons">
-            <a href="#" class="button">
-                <ion-icon name="person-outline" role="img" class="md hydrated" aria-label="person outline"></ion-icon>
-            </a>
-            <a href="#" class="button">
-                <ion-icon name="archive-outline" role="img" class="md hydrated" aria-label="archive outline"></ion-icon>
-            </a>
-            <a href="#" class="button">
-                <ion-icon name="settings-outline" role="img" class="md hydrated" aria-label="settings outline"></ion-icon>
-            </a>
-            <a href="#" class="button">
-                <ion-icon name="log-out-outline" role="img" class="md hydrated" aria-label="log out outline"></ion-icon>
-            </a>
-        </div> -->
-        <!-- * sidebar buttons -->
-    </div>
+    <div id="app-sidebar-container">
     <!-- * App Sidebar -->
 
     <!-- welcome notification  -->
-    <div id="notification-welcome" class="notification-box">
-        <div class="notification-dialog android-style">
-            <div class="notification-header">
-                <div class="in">
-                    <img src="images/dynamic_drive_logo.jpg" alt="image" class="imaged w24">
-                    <strong>DynamicDrive</strong>
-                    <span>just now</span>
-                </div>
-                <a href="#" class="close-button">
-                    <ion-icon name="close" role="img" class="md hydrated" aria-label="close"></ion-icon>
-                </a>
-            </div>
-            <div class="notification-content">
-                <div class="in">
-                    <h3 class="subtitle">Welcome to DynamicDrive</h3>
-                    <div class="text">
-                        Bringing Realism to Every Motion.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div id="app-notification-container">
     <!-- * welcome notification -->
 
     <!-- ============== Js Files ==============  -->
@@ -311,57 +124,10 @@
     <!-- Splide -->
     <script src="js/splide.min.js"></script>
     <!-- ProgressBar js -->
-    <script src="js/progressbar.min.js"></script>
-    <!-- script for the pitch/roll gauges -->
-    <script src="js/pitchrollgauges.js"></script>
+    <!-- <script src="js/progressbar.min.js"></script> -->
+    
     <!-- Base Js File -->
-    <!-- <script src="js/mk-base.js_"></script> -->
-
-    <script>
-        // Trigger welcome notification after 5 seconds
-        // setTimeout(() => {
-        //     notification('notification-welcome', 5000);
-        // }, 2000);
-        
-
-        const actionWords = ['Climb', 'Crawl', 'Drift', 'Trail', 'Race', 'Challenge', 'Experience', 'Scramble', 'Slide', 'Path', 'Dash', 'Encounter'];
-        const colors = ['#FF4500', '#228B22', '#1E90FF', '#FFD700', '#FF6347', '#00CED1', '#FF8C00', '#8A2BE2', '#6495ED', '#32CDFF', '#FF6347', '#FF00FF'];
-
-
-        let index = 0;
-
-        function rotateWords() {
-            const actionWordElement = document.getElementById('actionWord');
-            actionWordElement.innerText = actionWords[index];
-            actionWordElement.style.color = colors[index];  // Change color as the word cycles
-            index = (index + 1) % actionWords.length;
-        }
-
-        setInterval(rotateWords, 500);  // Rotate every 2 seconds
-
-        // Initialize all popovers
-        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-            return new bootstrap.Popover(popoverTriggerEl, {
-                trigger: 'click'
-            });
-        });
-
-        // Close all popovers before opening a new one
-        popoverTriggerList.forEach(function (popoverTriggerEl, index) {
-            popoverTriggerEl.addEventListener('click', function () {
-                popoverList.forEach(function (popover, i) {
-                    if (i !== index) {
-                        popover.hide(); // Hide all other popovers
-                    }
-                });
-            });
-        });
-
-
-
-
-
-    </script>
+    <script src="js/app.js"></script>
+    <script src="js/lights.js"></script>
 </body>
 </html>

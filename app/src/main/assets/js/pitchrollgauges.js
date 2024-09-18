@@ -6,6 +6,7 @@ let usingMockData = true; // Flag to check if using mock data
 
 // Update roll and pitch to show in the gauges
 function updateRoll() {
+  console.log('updateRoll init');
   const circle = document.getElementById('roll-circle');
   if (circle) {
     const adjustedRoll = roll - rollHome; // Adjust roll by home position
@@ -15,6 +16,7 @@ function updateRoll() {
 }
 
 function updatePitch() {
+  console.log('updatePitch init');
   const circle = document.getElementById('pitch-circle');
   if (circle) {
     const adjustedPitch = pitch - pitchHome; // Adjust pitch by home position
@@ -35,7 +37,8 @@ function simulatePitch() {
 }
 
 // Set the current roll and pitch as the home (neutral) position
-function resetGyroPosition() {
+function resetGyroOrientation() {
+  console.log('resetGyroOrientation clicked')
   rollHome = roll;
   pitchHome = pitch;
   console.log('Home position set:', { rollHome, pitchHome });
@@ -62,20 +65,22 @@ function initDeviceOrientation() {
 
 // Start using mock data if the real sensor data isn't available
 function startMockData() {
+  console.log('using mock data');
   usingMockData = true;
   setInterval(simulateRoll, 1500); // Update roll every 1 second
   setInterval(simulatePitch, 1500); // Update pitch every 1 second
 }
 
 window.onload = function () {
+  console.log('onload init pitchrollgauges.js')
   updateRoll();
   updatePitch();
 
   // Initialize device orientation or fall back to mock data
   initDeviceOrientation();
 
-  // Set up the Set Home button
-  document.getElementById('resetGyro').addEventListener('click', resetGyroPosition);
+  // Set up the Reset Gyro Orientation button
+  document.getElementById('resetGyro').addEventListener('click', resetGyroOrientation);
 
   console.log('pitch roll gauges script initialized');
 };
