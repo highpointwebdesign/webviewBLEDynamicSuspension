@@ -18,7 +18,7 @@
 
             // Send the updated value to the ESP32 via Bluetooth
             console.log(`Sending value ${value} for key ${key} to ESP32`);
-            BluetoothInterface.sendData(JSON.stringify({ [key]: value }));
+            BluetoothInterface.sendKeyValuePair(JSON.stringify({ [key]: value }));
         });
     });
     
@@ -28,11 +28,11 @@
         // Example command to request preferences from ESP32
         console.log('loadPreferencesFromESP32');
         alert('loadPreferencesFromESP32');
-        BluetoothInterface.sendData(JSON.stringify({ getPreferences}));
+        BluetoothInterface.sendKeyValuePair(JSON.stringify({ getPreferences}));
     }
 
 // Called when Bluetooth data is received from the ESP32
-    function onBluetoothDataReceived(responseData) {
+    function onBluetoothInterface_valueReturnedFromSendKeyValuePair(responseData) {
         try {
             // Parse the JSON data received from the ESP32
             const data = JSON.parse(responseData);
