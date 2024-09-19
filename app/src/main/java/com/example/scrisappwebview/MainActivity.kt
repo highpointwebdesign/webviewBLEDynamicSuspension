@@ -12,6 +12,8 @@ import android.content.pm.PackageManager
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.webkit.ConsoleMessage // Add this import
+import android.util.Log // Add this import
 import androidx.appcompat.app.AppCompatActivity
 import android.graphics.Color
 import androidx.core.app.ActivityCompat
@@ -34,7 +36,14 @@ class MainActivity : AppCompatActivity() {
         myWebView = findViewById(R.id.webview) // Initialize here
         val webSettings: WebSettings = myWebView.settings
         webSettings.javaScriptEnabled = true
-        myWebView.webViewClient = WebViewClient()
+
+        // Add the custom WebViewClient to capture console messages
+        myWebView.webViewClient = object : WebViewClient() {
+            fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
+                Log.d("WebView", consoleMessage?.message() ?: "No message")
+                return true
+            }
+        }
 
         // Initialize BluetoothInterface and attach it to WebView
         bluetoothInterface = BluetoothInterface(this, myWebView)

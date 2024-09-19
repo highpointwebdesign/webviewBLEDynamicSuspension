@@ -11,7 +11,7 @@ function handleDiscoveredDevices(devicesJson) {
     const deviceList = document.getElementById("deviceList");
 
     // Clear any previous entries
-    deviceList.innerHTML = '<div class="listview-title mt-2">Discovered Devices</div>';
+    deviceList.innerHTML = '<h3>Discovered Devices</h3>';
 
     // Create list items for each device
     devices.forEach(device => {
@@ -26,6 +26,7 @@ function handleDiscoveredDevices(devicesJson) {
         //         <span class="text-muted">Edit</span>
         //     </div>
         // </a>
+        // listItem.textContent = `${device.name} (${device.address})`;
         listItem.textContent = `${device.name} (${device.address})`;
 
         // Add a click listener to connect to the device when clicked
