@@ -98,9 +98,9 @@
                             <!-- stepper success -->
                             <div class="mb-05">Front Left <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Front Left Servo" data-bs-content="When vehicle is on level ground, adjust setting so that the front left wheels is touching the ground."><i class="bi bi-question-circle"></i></span></div>
                             <div class="stepper stepper-success">
-                                <button class="decrement-btn stepper-button stepper-down" type="button" data-key="flRideHeight">-</button>
-                                <input type="number" class="form-control" value="0" id="flRideHeight" disabled="">
-                        <button class="increment-btn stepper-button stepper-up" type="button" data-key="flRideHeight">+</button>
+                                <button class="decrement-btn stepper-button stepper-down" type="button" data-key="rideHeightFL">-</button>
+                                <input type="number" class="form-control" value="0" id="rideHeightFL" disabled="">
+                        <button class="increment-btn stepper-button stepper-up" type="button" data-key="rideHeightFL">+</button>
                             </div>
                             <!-- * stepper success -->
                         </div>
@@ -109,9 +109,9 @@
                             <!-- stepper danger -->
                             <div class="mb-05">Front Right <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Front Right Servo" data-bs-content="When vehicle is on level ground, adjust setting so that the front right wheels is touching the ground."><i class="bi bi-question-circle"></i></span></div>
                             <div class="stepper stepper-danger">
-                                <button class="decrement-btn stepper-button stepper-down" type="button" data-key="frRideHeight">-</button>
-                                <input type="number" class="form-control" value="0" id="frRideHeight" disabled="">
-                        <button class="increment-btn stepper-button stepper-up" type="button" data-key="frRideHeight">+</button>
+                                <button class="decrement-btn stepper-button stepper-down" type="button" data-key="rideHeightFR">-</button>
+                                <input type="number" class="form-control" value="0" id="rideHeightFR" disabled="">
+                        <button class="increment-btn stepper-button stepper-up" type="button" data-key="rideHeightFR">+</button>
                             </div>
                             <!-- * stepper danger -->
                         </div>
@@ -120,9 +120,9 @@
                             <!-- stepper warning -->
                             <div class="mb-05">Rear Left <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Rear Left Servo" data-bs-content="When vehicle is on level ground, adjust setting so that the rear left wheels is touching the ground."><i class="bi bi-question-circle"></i></span></div>
                             <div class="stepper stepper-warning">
-                                <button class="decrement-btn stepper-button stepper-down" type="button" data-key="rlRideHeight">-</button>
-                                <input type="number" class="form-control" value="0" id="rlRideHeight" disabled="">
-                        <button class="increment-btn stepper-button stepper-up" type="button" data-key="rlRideHeight">+</button>
+                                <button class="decrement-btn stepper-button stepper-down" type="button" data-key="rideHeightRL">-</button>
+                                <input type="number" class="form-control" value="0" id="rideHeightRL" disabled="">
+                        <button class="increment-btn stepper-button stepper-up" type="button" data-key="rideHeightRL">+</button>
                             </div>
                             <!-- * stepper warning -->
                         </div>
@@ -131,9 +131,9 @@
                             <!-- stepper info -->
                             <div class="mb-05">Rear Right <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Rear Right Servo" data-bs-content="When vehicle is on level ground, adjust setting so that the rear right wheels is touching the ground."><i class="bi bi-question-circle"></i></span></div>
                             <div class="stepper stepper-info">
-                                <button class="decrement-btn stepper-button stepper-down" type="button" data-key="rrRideHeight">-</button>
-                                <input type="number" class="form-control" value="0" id="rrRideHeight" disabled="">
-                        <button class="increment-btn stepper-button stepper-up" type="button" data-key="rrRideHeight">+</button>
+                                <button class="decrement-btn stepper-button stepper-down" type="button" data-key="rideHeightRR">-</button>
+                                <input type="number" class="form-control" value="0" id="rideHeightRR" disabled="">
+                        <button class="increment-btn stepper-button stepper-up" type="button" data-key="rideHeightRR">+</button>
                             </div>
                             <!-- * stepper info -->
                         </div>
@@ -177,14 +177,33 @@
                         </div>
                     </div>
                 
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="wide-block">
                             <button type="button" name="saveSettings" id="saveSettings" class="btn btn-primary btn-block">SAVE</button>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
+
+        <div class="section inset mt-2">
+            <div class="accordion" id="accordionHelp">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#debugging" aria-expanded="false">
+                            Debugging
+                        </button>
+                    </h2>
+                    <div id="debugging" class="accordion-collapse collapse" data-bs-parent="#accordionHelp" style="">
+                        <div class="accordion-body">
+                            <div id="error-log" style="color: red;"></div>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- * App Capsule -->

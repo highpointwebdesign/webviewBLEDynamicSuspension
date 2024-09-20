@@ -2,7 +2,7 @@
 function startBluetoothDiscovery() {
     
     document.getElementById("deviceListContainer").classList.remove("hide");
-    document.getElementById("deviceList").innerHTML = "<em>Searching...</em>"
+    document.getElementById("deviceList").innerHTML = ""
     BluetoothInterface.startDeviceDiscovery();
 }
 
@@ -11,7 +11,7 @@ function handleDiscoveredDevices(devicesJson) {
     const deviceList = document.getElementById("deviceList");
 
     // Clear any previous entries
-    deviceList.innerHTML = '<h3>Discovered Devices</h3>';
+    deviceList.innerHTML = '';
 
     // Create list items for each device
     devices.forEach(device => {

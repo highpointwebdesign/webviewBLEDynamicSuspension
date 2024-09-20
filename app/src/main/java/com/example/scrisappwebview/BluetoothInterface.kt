@@ -150,12 +150,12 @@ class BluetoothInterface(private val context: MainActivity, private val myWebVie
     }
 
     @JavascriptInterface
-    fun sendKeyValuePair(data: String) {
-        Log.d("BluetoothInterface", "Sending key value pair: $data")
+    fun savePreferencesToESP32(data: String) {
+        Log.d("BluetoothInterface", "Saving key value pair: $data")
 
         // Send data to ESP32 and wait for the response (this part you likely have working already)
         if (bluetoothSocket == null || !bluetoothSocket!!.isConnected) {
-            Log.e("BluetoothInterface", "Cannot send data: Bluetooth is disconnected")
+            Log.e("BluetoothInterface", "Cannot save data: Bluetooth is disconnected")
             return
         }
 
@@ -170,7 +170,7 @@ class BluetoothInterface(private val context: MainActivity, private val myWebVie
             }
 
         } catch (e: IOException) {
-            Log.e("BluetoothInterface", "Failed to send data", e)
+            Log.e("BluetoothInterface", "Failed to save data", e)
         }
     }
 

@@ -111,15 +111,17 @@
                 <!-- <img src="images/3qtr-Chassis-suspension.jpg" class="card-img-top" alt="image"> -->
                 <div class="card-body">
                     <!-- <h6 class="card-subtitle">Ride Height</h6> -->
-                    <h2 class="card-title">Bluetooth Devices</h2>                                        
-                    <div class="row">
-                         <div class="col-12 text-center mb-2">
-                            <button class="btn btn-primary btn-block" type="button" onclick="startBluetoothDiscovery()">Search</button>
+                    <h2 class="card-title">Discovered Devices</h2>                                        
+                    <div class="container my-4" id="deviceListContainer">
+                        <div class="d-grid gap-2">
+                            <ul id="deviceList" class="listview simple-listview"><li>
+                                <i class="fa-solid fa-hourglass-half"></i> Searching...</li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="container my-4 hide" id="deviceListContainer">
-                        <div class="d-grid gap-2">
-                            <ul id="deviceList" class="listview simple-listview"><li><i class="fa-solid fa-hourglass-half"></i> Searching</li></ul>
+                    <div class="row">
+                         <div class="col-12 text-center mb-2">
+                            <button class="btn btn-primary btn-block" type="button" onclick="startBluetoothDiscovery()">Search Again</button>
                         </div>
                     </div>
 

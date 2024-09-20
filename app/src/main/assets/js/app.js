@@ -286,6 +286,10 @@ function init(){
     updateHostDetails();
 }
 
+function showAndroidToast(message) {
+    BluetoothInterface.showToast(message);
+}
+
 window.onload = function(event) {
     init();
 };

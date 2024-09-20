@@ -17,8 +17,9 @@
             input.value = value;
 
             // Send the updated value to the ESP32 via Bluetooth
-            console.log(`Sending value ${value} for key ${key} to ESP32`);
-            BluetoothInterface.sendKeyValuePair(JSON.stringify({ [key]: value }));
+            // console.log(`Sending value ${value} for key ${key} to ESP32`);
+            
+            BluetoothInterface.savePreferencesToESP32(JSON.stringify({ [key]: value }));
         });
     });
     
@@ -26,13 +27,16 @@
 // load preferences from esp32
     function loadPreferencesFromESP32() {
         // Example command to request preferences from ESP32
-        console.log('loadPreferencesFromESP32');
-        alert('loadPreferencesFromESP32');
-        BluetoothInterface.sendKeyValuePair(JSON.stringify({ getPreferences}));
+        // var key = "getPreferences"
+        // var value = 1
+        // BluetoothInterface.savePreferencesToESP32(JSON.stringify({ [key]: value }));
+        BluetoothInterface.savePreferencesToESP32(JSON.stringify({ getPreferences: true }));
+
     }
 
+
 // Called when Bluetooth data is received from the ESP32
-    function onBluetoothInterface_valueReturnedFromSendKeyValuePair(responseData) {
+    function onBluetoothDataReceived(responseData) {
         try {
             // Parse the JSON data received from the ESP32
             const data = JSON.parse(responseData);
@@ -74,10 +78,7 @@
 // This function will be called by the native Android app when Bluetooth data is received
     function handleBluetoothData(data) {
         // Log the received data to the console
-        console.log('Received data from Bluetooth:', data);
-
-        // You can also show an alert to confirm data is received
-        alert('Received data: ');
+        showAndroidToast('handleBluetoothData line 81')
 
         // Further processing of data here...
     }
@@ -86,31 +87,76 @@
 
 
 // Function to update form fields with values received from ESP32
-function updateFormFields(preferences) {
-    console.log('updateFormFields');
-    document.getElementById('rideHeight').value = preferences.rideHeight || 0;
-    document.getElementById('balance').value = preferences.balance || 0;
-    document.getElementById('damping').value = preferences.damping || 0;
+function updateFormFields(parsedData) {
+    showAndroidToast(parsedData.minRideHeight);
+
+    try {
+        // Assuming data contains keys like rideHeightFL, smoothingFactor, etc.
+        if (parsedData) {
+            //  ride height
+            if (parsedData.minRideHeight !== undefined) {
+                document.getElementById('minRideHeight').value = parsedData.minRideHeight;
+            }
+            if (parsedData.maxRideHeight !== undefined) {
+                document.getElementById('maxRideHeight').value = parsedData.maxRideHeight;
+            }
+
+            //  servo data
+            if (parsedData.rideHeightFL !== undefined) {
+                document.getElementById('rideHeightFL').value = parsedData.rideHeightFL;
+            }
+            if (parsedData.rideHeightFR !== undefined) {
+                document.getElementById('rideHeightFR').value = parsedData.rideHeightFR;
+            }
+            if (parsedData.rideHeightRL !== undefined) {
+                document.getElementById('rideHeightRL').value = parsedData.rideHeightRL;
+            }
+            if (parsedData.rideHeightRR !== undefined) {
+                document.getElementById('rideHeightRR').value = parsedData.rideHeightRR;
+            }
+
+            //  chassis rebound control
+            // if (parsedData.smoothingFactor !== undefined) {
+            //     document.getElementById('smoothingFactor').value = parsedData.smoothingFactor;
+            // }
+            // if (parsedData.gain !== undefined) {
+            //     document.getElementById('gain').value = parsedData.gain;
+            // }
+        } else {
+            throw new Error('No data received.');
+        }
+    } catch (error) {
+        // Output error details to the error log
+        const errorLog = document.getElementById('error-log');
+        errorLog.innerHTML += `Error: ${error.message}\nStack: ${error.stack}\n\n`;
+    }
+
+   
+    showAndroidToast('done');
+}
+
+function showDebugLog(data){
+    const showDebugLog = document.getElementById('error-log');
+    showDebugLog.innerHTML += data + '\n\n';
+
 }
 
 // Handle the Bluetooth response from ESP32
-function onBluetoothDataReceived(data) {
+function onBluetoothInterface_valueReturnedFromSendKeyValuePair(data) {
     // Assuming data is in JSON format
-    console.log('onBluetoothDataReceived');
-    alert('data received ' + data)
-    const preferences = JSON.parse(data);
-    updateFormFields(preferences);
+    showAndroidToast("data base from esp32!");
+    showDebugLog(data);
+
+    const parsedData = JSON.parse(data);
+    updateFormFields(parsedData);
 }
 
 // Register the handler to be called when data is received
 window.onload = function() {
     // Set up the connection and send request when the page loads
-        console.log('init loadPreferencesFromESP32');
-
     loadPreferencesFromESP32();
 
-    // Assuming BluetoothInterface has a receiveData function
-            console.log('handle onBluetoothDataReceived');
 
-    BluetoothInterface.receiveData(onBluetoothDataReceived);
+            
+    //  BluetoothInterface.receiveData(onBluetoothDataReceived);
 };
