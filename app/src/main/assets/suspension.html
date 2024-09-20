@@ -24,7 +24,20 @@
     <style data-styles="">
         ion-icon {visibility:hidden}
         .hydrated {visibility:inherit}
+    
+        .debugging-container {
+            white-space: pre-wrap; /* Preserve newlines, and wrap text to the next line */
+            word-wrap: break-word; /* Ensure long words are broken and wrapped */
+            overflow-wrap: break-word; /* Alternative way to ensure wrapping */
+            max-width: 100%; /* Prevent overflowing horizontally */
+            overflow: auto; /* Enable scrolling if necessary */
+            border: 1px solid #ccc; /* Optional: add a border for better visualization */
+            padding: 10px; /* Optional: padding for better readability */
+            font-family: monospace; /* Optional: monospace font for debugging text */
+        }
+
     </style>
+
     
 </head>
 
@@ -187,16 +200,16 @@
         </div>
 
         <div class="section inset mt-2">
-            <div class="accordion" id="accordionHelp">
+            <div class="accordion" id="transactionSection">
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#debugging" aria-expanded="false">
-                            Debugging
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#transaction" aria-expanded="false">
+                            Transaction Log
                         </button>
                     </h2>
-                    <div id="debugging" class="accordion-collapse collapse" data-bs-parent="#accordionHelp" style="">
+                    <div id="transaction" class="accordion-collapse collapse" data-bs-parent="#transactionSection" style="">
                         <div class="accordion-body">
-                            <div id="error-log" style="color: red;"></div>
+                            <div id="transactionLog" class="transaction-container"></div>
                         </div>
                     </div>
                 

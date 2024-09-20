@@ -20,25 +20,24 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 class BluetoothInterface(private val context: MainActivity, private val myWebView: WebView) {
+
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
     private var bluetoothSocket: BluetoothSocket? = null
     private var outputStream: OutputStream? = null
     private val handler = Handler(Looper.getMainLooper())
     private val discoveredDevices = mutableListOf<BluetoothDevice>()
+    private val pollingInterval = 3000L
 
-    // Add this function to show a toast message
+    // Toast Utility
     @JavascriptInterface
     fun showToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-    // Polling interval (in milliseconds)
-    private val pollingInterval = 3000L // 3 seconds
-
+    // Connection to Bluetooth device
     @JavascriptInterface
     fun connectToDevice(address: String) {
-        Log.d("BluetoothInterface", "Attempting to connect to $address")
-
+        Log.d("BluetoothInterface", "Connecting to $address")
         if (!hasBluetoothPermissions()) {
             Log.e("BluetoothInterface", "Bluetooth permissions are not granted")
             return
@@ -47,44 +46,30 @@ class BluetoothInterface(private val context: MainActivity, private val myWebVie
         try {
             val device: BluetoothDevice = bluetoothAdapter?.getRemoteDevice(address)
                 ?: throw IllegalArgumentException("Device not found or Bluetooth is disabled")
-            val uuid: UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
 
-            bluetoothSocket = device.createRfcommSocketToServiceRecord(uuid)
+            bluetoothSocket = device.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"))
             bluetoothSocket?.connect()
             outputStream = bluetoothSocket?.outputStream
 
             if (bluetoothSocket?.isConnected == true) {
                 Log.d("BluetoothInterface", "Connected to $address")
-                startPollingConnectionStatus()
-                context.runOnUiThread {
-                    context.updateStatusBarColor(Color.parseColor("#4CBB17"))
-                }
+                updateStatusBar(Color.parseColor("#4CBB17"))
+                //  startPollingConnectionStatus()
             }
+
         } catch (e: IOException) {
             Log.e("BluetoothInterface", "Connection failed", e)
-            context.runOnUiThread {
-                context.updateStatusBarColor(Color.RED)
-            }
+            updateStatusBar(Color.RED)
         }
     }
 
+    // Device discovery
     @JavascriptInterface
     fun startDeviceDiscovery() {
         Log.d("BluetoothInterface", "Starting device discovery")
+        if (!hasBluetoothPermissions() || bluetoothAdapter?.isEnabled == false) return
 
-        if (!hasBluetoothPermissions()) {
-            Log.e("BluetoothInterface", "Bluetooth permissions are not granted")
-            return
-        }
-
-        if (bluetoothAdapter?.isEnabled == false) {
-            return
-        }
-
-        // Clear the previous list of discovered devices
         discoveredDevices.clear()
-
-        // Start discovery and register a BroadcastReceiver in MainActivity
         if (bluetoothAdapter?.startDiscovery() == true) {
             Log.d("BluetoothInterface", "Bluetooth discovery started")
         } else {
@@ -92,105 +77,103 @@ class BluetoothInterface(private val context: MainActivity, private val myWebVie
         }
     }
 
-    // Function to pass discovered devices to WebView
-    fun sendDiscoveredDevicesToWebView() {
-        val jsonArray = JSONArray()
-
-        for (device in discoveredDevices) {
-            val deviceName = device.name ?: "Unknown Device"
-
-            // Check if the device name contains "Dynamic Drive" or "esp32"
-            if (deviceName.contains("Dynamic Drive", ignoreCase = true) ||
-                deviceName.contains("esp32", ignoreCase = true)) {
-
-                val jsonObject = JSONObject()
-                jsonObject.put("name", deviceName)
-                jsonObject.put("address", device.address)
-                jsonArray.put(jsonObject)
-            }
-        }
-
-
-        val jsonString = jsonArray.toString()
-
-        context.runOnUiThread {
-            Log.e("BluetoothInterface", "'$jsonString'")
-            myWebView.evaluateJavascript("handleDiscoveredDevices('$jsonString')", null)
-        }
-    }
-
+    // Add discovered device and send to WebView
     fun addDiscoveredDevice(device: BluetoothDevice) {
         discoveredDevices.add(device)
         sendDiscoveredDevicesToWebView()
     }
 
-    private fun startPollingConnectionStatus() {
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                if (bluetoothSocket?.isConnected == false) {
-                    Log.d("BluetoothInterface", "Connection lost")
-                    context.runOnUiThread {
-                        context.updateStatusBarColor(Color.RED)
-                    }
-                }
-                handler.postDelayed(this, pollingInterval)
+    private fun sendDiscoveredDevicesToWebView() {
+        val jsonArray = JSONArray()
+        discoveredDevices.forEach { device ->
+            val deviceName = device.name ?: "Unknown Device"
+            if (deviceName.contains("Dynamic Drive", ignoreCase = true) ||
+                deviceName.contains("esp32", ignoreCase = true)) {
+
+                jsonArray.put(JSONObject().apply {
+                    put("name", deviceName)
+                    put("address", device.address)
+                })
             }
-        }, pollingInterval)
-    }
+        }
 
-    @JavascriptInterface
-    fun receiveData(callback: String) {
-        // Simulate receiving data or handle actual Bluetooth data reception
-        val responseData = "Received data from ESP32"  // Replace with actual data from ESP32
-
-        // Pass the data back to the WebView/JavaScript
+        val jsonString = jsonArray.toString()
         context.runOnUiThread {
-            myWebView.evaluateJavascript("$callback('$responseData')", null)
+            Log.d("BluetoothInterface", "Sending devices: $jsonString")
+            myWebView.evaluateJavascript("handleDiscoveredDevices('$jsonString')", null)
         }
     }
 
+    // Save preferences to ESP32
     @JavascriptInterface
     fun savePreferencesToESP32(data: String) {
-        Log.d("BluetoothInterface", "Saving key value pair: $data")
-
-        // Send data to ESP32 and wait for the response (this part you likely have working already)
-        if (bluetoothSocket == null || !bluetoothSocket!!.isConnected) {
-            Log.e("BluetoothInterface", "Cannot save data: Bluetooth is disconnected")
-            return
-        }
-
-        try {
-            outputStream?.write(data.toByteArray())
-            // Add logic here to receive the response from ESP32, e.g., readInput()
-                val responseData = readInput() // Method to read response from ESP32
-
-            // Send response data to the WebView/JavaScript
-            context.runOnUiThread {
-                myWebView.evaluateJavascript("onBluetoothInterface_valueReturnedFromSendKeyValuePair('$responseData')", null)
+        Log.d("BluetoothInterface", "Saving data to ESP32: $data")
+        if (isBluetoothConnected()) {
+            try {
+                outputStream?.write(data.toByteArray())
+                requestPreferencesFromESP32()  // Call to update preferences
+            } catch (e: IOException) {
+                Log.e("BluetoothInterface", "Failed to save preferences", e)
             }
-
-        } catch (e: IOException) {
-            Log.e("BluetoothInterface", "Failed to save data", e)
         }
     }
 
-    // Simulate a method to read incoming data (modify as per your logic)
-    private fun readInput(): String {
-        // Example response data from ESP32
-        Log.d("Debug", "readInput() called")
+    // Request preferences from ESP32
+    @JavascriptInterface
+    fun requestPreferencesFromESP32() {
+        Log.d("BluetoothInterface", "Requesting preferences from ESP32")
+        if (isBluetoothConnected()) {
+            try {
+                val requestData = "{\"getPreferences\": true}"
+                outputStream?.write(requestData.toByteArray())
 
-        return "{\"rideHeightFL\":91,\"rideHeightFR\":89,\"rideHeightRL\":90,\"rideHeightRR\":90,\"smoothingFactor\":0.8,\"speed\":0.8,\"minRideHeight\":5,\"maxRideHeight\":180}"
+                val responseData = readInput()
+                context.runOnUiThread {
+                    Log.d("BluetoothInterface", "Sending data back to webview: $responseData")
+                    myWebView.evaluateJavascript("onBluetoothDataReceived('$responseData')", null)
+                    Log.d("BluetoothInterface", "Sent data back to webview onBluetoothDataReceived")
+                }
+            } catch (e: IOException) {
+                Log.e("BluetoothInterface", "Failed to request preferences", e)
+            }
+        }
     }
 
+    // Read response from ESP32
+//    private fun readInput(): String {
+//        val inputStream = bluetoothSocket?.inputStream
+//        val buffer = ByteArray(1024)
+//        return try {
+//            val bytes = inputStream?.read(buffer) ?: 0
+//            String(buffer, 0, bytes)
+//        } catch (e: IOException) {
+//            Log.e("BluetoothInterface", "Error reading input from ESP32", e)
+//            ""
+//        }
+//    }
+
+    private fun readInput(): String {
+        val inputStream = bluetoothSocket?.inputStream
+        val buffer = ByteArray(1024)
+        return try {
+            val bytes = inputStream?.read(buffer) ?: 0
+            val rawData = String(buffer, 0, bytes)
+            Log.d("BluetoothInterface", "Raw data received: $rawData")
+            rawData
+        } catch (e: IOException) {
+            Log.e("BluetoothInterface", "Error reading input from ESP32", e)
+            ""
+        }
+    }
+
+
+    // Disconnect from Bluetooth
     @JavascriptInterface
     fun disconnect() {
         Log.d("BluetoothInterface", "Disconnecting")
-
         try {
             bluetoothSocket?.close()
-            context.runOnUiThread {
-                context.updateStatusBarColor(Color.RED)
-            }
+            updateStatusBar(Color.RED)
         } catch (e: IOException) {
             Log.e("BluetoothInterface", "Failed to disconnect", e)
         }
@@ -201,6 +184,17 @@ class BluetoothInterface(private val context: MainActivity, private val myWebVie
         return bluetoothSocket?.isConnected == true
     }
 
+    // Poll connection status
+//    private fun startPollingConnectionStatus() {
+//        handler.postDelayed(object : Runnable {
+//            override fun run() {
+//                if (!isConnected()) updateStatusBar(Color.RED)
+//                handler.postDelayed(this, pollingInterval)
+//            }
+//        }, pollingInterval)
+//    }
+
+    // Check for Bluetooth permissions
     private fun hasBluetoothPermissions(): Boolean {
         val permissions = arrayOf(
             Manifest.permission.BLUETOOTH,
@@ -208,12 +202,20 @@ class BluetoothInterface(private val context: MainActivity, private val myWebVie
             Manifest.permission.BLUETOOTH_CONNECT,
             Manifest.permission.BLUETOOTH_SCAN
         )
-
-        for (permission in permissions) {
-            if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                return false
-            }
+        return permissions.all { permission ->
+            ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
         }
-        return true
+    }
+
+    // Helper to check if Bluetooth is connected
+    private fun isBluetoothConnected(): Boolean {
+        return bluetoothSocket?.isConnected == true
+    }
+
+    // Helper to update status bar color
+    private fun updateStatusBar(color: Int) {
+        context.runOnUiThread {
+            context.updateStatusBarColor(color)
+        }
     }
 }

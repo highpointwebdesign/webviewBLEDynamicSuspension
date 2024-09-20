@@ -290,6 +290,30 @@ function showAndroidToast(message) {
     BluetoothInterface.showToast(message);
 }
 
+// Array to store the last 10 changes
+let transactionLog = [];
+
+function updatetransactionLog(data) {
+    // Create a new entry
+    const newEntry = data;
+
+    // Add the new entry to the beginning of the array
+    transactionLog.unshift(newEntry);
+
+    // Keep only the last 10 entries
+    if (transactionLog.length > 10) {
+        transactionLog.pop();
+    }
+
+    // Build the HTML for debuggingBody
+    const logHtml = transactionLog.map(entry => '<li>' + entry + '</li>').join(''); // Use `entry` here
+
+    // Update the transactionLog element
+    document.getElementById('transactionLog').innerHTML = logHtml;
+}
+
+
+
 window.onload = function(event) {
     init();
 };

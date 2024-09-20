@@ -37,6 +37,9 @@ class MainActivity : AppCompatActivity() {
         val webSettings: WebSettings = myWebView.settings
         webSettings.javaScriptEnabled = true
 
+        // Disable WebView cache
+        myWebView.settings.cacheMode = WebSettings.LOAD_NO_CACHE
+
         // Add the custom WebViewClient to capture console messages
         myWebView.webViewClient = object : WebViewClient() {
             fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {

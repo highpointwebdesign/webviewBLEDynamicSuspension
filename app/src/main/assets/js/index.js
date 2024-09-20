@@ -2,7 +2,7 @@
 function startBluetoothDiscovery() {
     
     document.getElementById("deviceListContainer").classList.remove("hide");
-    document.getElementById("deviceList").innerHTML = ""
+    // document.getElementById("deviceList").innerHTML = ""
     BluetoothInterface.startDeviceDiscovery();
 }
 
@@ -10,32 +10,45 @@ function handleDiscoveredDevices(devicesJson) {
     const devices = JSON.parse(devicesJson);
     const deviceList = document.getElementById("deviceList");
 
-    // Clear any previous entries
-    deviceList.innerHTML = '';
+    // // Clear any previous entries
+    // deviceList.innerHTML = '';
 
-    // Create list items for each device
+    // // Create list items for each device
+    // devices.forEach(device => {
+    //     const listItem = document.createElement("li");
+    //     listItem.textContent = `${device.name} (${device.address})`;
+
+    //     // Add a click listener to connect to the device when clicked
+    //     listItem.addEventListener("click", () => {
+    //         BluetoothInterface.connectToDevice(device.address);
+    //     });
+
+    //     deviceList.appendChild(listItem);
+    // });
+
+    // Clear any previous results before appending new ones
+    deviceList.innerHTML = "";
+
+    // Create buttons for each device
     devices.forEach(device => {
-        const listItem = document.createElement("li");
-        // <a href="#" class="item">
-        //     <div class="in">
-        //         <div>
-        //             <header>Name</header>
-        //             Gaspar Antunes
-        //             <footer>London</footer>
-        //         </div>
-        //         <span class="text-muted">Edit</span>
-        //     </div>
-        // </a>
-        // listItem.textContent = `${device.name} (${device.address})`;
-        listItem.textContent = `${device.name} (${device.address})`;
+        const button = document.createElement("button");
+        
+        // Set the button's attributes and classes
+        button.type = "button";
+        button.className = "btn btn-text-primary btn-block rounded shadowed me-1 mb-1";
+        
+        // Set the button text to the device's name and address
+        button.textContent = device.name;
 
         // Add a click listener to connect to the device when clicked
-        listItem.addEventListener("click", () => {
+        button.addEventListener("click", () => {
             BluetoothInterface.connectToDevice(device.address);
         });
 
-        deviceList.appendChild(listItem);
+        // Append the button to the device list container
+        deviceList.appendChild(button);
     });
+
 }
 
 function connectToDevice(address) {
