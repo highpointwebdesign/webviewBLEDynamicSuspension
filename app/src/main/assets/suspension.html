@@ -82,7 +82,7 @@
         <div class="section mt-3 mb-3">
             <div class="card">
                 <div class="card-body">
-                    <h2 class="card-title">Ride Height Control</h2>
+                    <h2 class="card-title">Ride Height Control</h2><button type="button" class="btn btn-primary btn-sm me-1" id="loadData">Load Data</button>
                     <p class="text">Set Suspension Travel Limits</p>
                     <div class="row">
                         <div class="col-6 text-center mb-2">
@@ -203,11 +203,11 @@
             <div class="accordion" id="transactionSection">
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#transaction" aria-expanded="false">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#transaction" aria-expanded="false">
                             Transaction Log
                         </button>
                     </h2>
-                    <div id="transaction" class="accordion-collapse collapse" data-bs-parent="#transactionSection" style="">
+                    <div id="transaction" class="accordion-collapse" data-bs-parent="#transactionSection" style="">
                         <div class="accordion-body">
                             <div id="transactionLog" class="transaction-container"></div>
                         </div>
@@ -253,13 +253,14 @@
     <!-- Ionicons -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <!-- Splide -->
-    <script src="js/splide.min.js"></script>
+    <!-- <script src="js/splide.min.js"></script> -->
     <!-- ProgressBar js -->
     <script src="js/progressbar.min.js"></script>
     <!-- script for the pitch/roll gauges -->
     <script src="js/pitchrollgauges.js"></script>
     <!-- Base Js File -->
     <!-- <script src="js/mk-base.js_"></script> -->
+
     <script src="js/app.js"></script>
     <script src="js/suspension.js"></script>
 

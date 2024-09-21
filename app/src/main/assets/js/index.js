@@ -1,8 +1,8 @@
 // Functions to connect and disconnect from Bluetooth device
 function startBluetoothDiscovery() {
     
-    document.getElementById("deviceListContainer").classList.remove("hide");
-    // document.getElementById("deviceList").innerHTML = ""
+    //  document.getElementById("deviceListContainer").classList.remove("hide");
+    //  document.getElementById("deviceList").innerHTML = ""
     BluetoothInterface.startDeviceDiscovery();
 }
 
@@ -74,4 +74,8 @@ function disconnectFromESP32() {
     BluetoothInterface.disconnect();
 }
 
-
+// Register the handler when the page loads
+window.onload = function() {
+    updatetransactionLog('Loading preferences [L132]')
+    startBluetoothDiscovery();
+};

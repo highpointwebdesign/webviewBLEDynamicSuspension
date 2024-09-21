@@ -28,6 +28,19 @@ class MainActivity : AppCompatActivity() {
     // Declare myWebView at the class level
     private lateinit var myWebView: WebView
 
+    override fun onResume() {
+        super.onResume()
+        val cacheBuster = System.currentTimeMillis()
+        myWebView.loadUrl("about:blank") // Clear out any previous content
+        myWebView.loadUrl("file:///android_asset/index.html")
+        myWebView.evaluateJavascript("loadScriptWithCacheBusting()", null) // Optional: Direct call if JS method is defined as above
+        myWebView.evaluateJavascript("var script = document.createElement('script');" +
+                "script.src = 'js/suspension.js?cb=$cacheBuster';" +
+                "document.head.appendChild(script);", null)
+    }
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -53,8 +66,10 @@ class MainActivity : AppCompatActivity() {
         myWebView.addJavascriptInterface(bluetoothInterface, "BluetoothInterface")
 
         // Load the HTML file
+        myWebView.clearCache(true)
         myWebView.loadUrl("file:///android_asset/index.html")
-
+        myWebView.evaluateJavascript("refreshPageData()", null) // Optionally call a specific JS function to refresh data
+        
         // Check and request Bluetooth permissions
         val permissions = arrayOf(
             Manifest.permission.BLUETOOTH,
