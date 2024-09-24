@@ -4,6 +4,7 @@ function startBluetoothDiscovery() {
     //  document.getElementById("deviceListContainer").classList.remove("hide");
     //  document.getElementById("deviceList").innerHTML = ""
     BluetoothInterface.startDeviceDiscovery();
+    updatetransactionLog('startBluetoothDiscovery');
 }
 
 function handleDiscoveredDevices(devicesJson) {
@@ -74,8 +75,8 @@ function disconnectFromESP32() {
     BluetoothInterface.disconnect();
 }
 
-// Register the handler when the page loads
-window.onload = function() {
-    updatetransactionLog('Loading preferences [L132]')
-    startBluetoothDiscovery();
-};
+// // Register the handler when the page loads
+// window.onload = function() {
+//     updatetransactionLog('Loading preferences [L132]')
+//     startBluetoothDiscovery();
+// };

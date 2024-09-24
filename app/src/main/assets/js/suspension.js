@@ -4,7 +4,7 @@ function handleIncrementDecrementButtons(){
 
     document.querySelectorAll('.increment-btn, .decrement-btn').forEach(function(button) {
         button.addEventListener('click', function() {
-            disableButtons()
+             disableButtons()
             var key = this.getAttribute('data-key');
             var input = document.getElementById(key);
             var value = parseInt(input.value);
@@ -24,30 +24,74 @@ function handleIncrementDecrementButtons(){
             updatetransactionLog('Saving updates')
             BluetoothInterface.savePreferencesToESP32(JSON.stringify({ [key]: value }));
             
-            //  updatetransactionLog('Retrieving preference data [L24]')
+            //  updatetransactionLog('Retrieving Preference data [L24]')
             //  loadPreferencesFromESP32();
         });
     });
 }
 
-function loadData(){
-    document.getElementById('loadData').addEventListener('click', loadPreferencesFromESP32);
-    updatetransactionLog('Retrieving preference data [L34]')
+function cleanUpJSON(jsonString) {
+
+        updatetransactionLog(jsonString)
+
+    // Trim the input string to remove any leading or trailing whitespace
+    jsonString = jsonString.trim();
+
+    try {
+        // Attempt to parse the JSON to see if it's already valid
+        JSON.parse(jsonString);
+        return jsonString; // If no error, return the original string
+    } catch (error) {
+        // If an error occurs, proceed to clean up
+        // Find the first index of a closing brace followed by a starting brace
+        const index = jsonString.indexOf('}{');
+        if (index !== -1) {
+            // Slice the string from the start to the first index of closing brace + 1 to get a valid JSON
+            const cleanedJsonString = jsonString.slice(0, index + 1);
+            // Attempt to parse the cleaned string to ensure it's valid JSON
+            try {
+                JSON.parse(cleanedJsonString);
+                return cleanedJsonString; // Return the cleaned and trimmed JSON string
+            } catch (error) {
+                // Log error if the cleaned string is still not valid JSON
+                console.error("Failed to clean the JSON string: ", error);
+                return null; // Return null or handle as needed
+            }
+        } else {
+            // Log error if no closing brace followed by an opening brace is found
+            console.error("Invalid JSON format and unable to clean");
+            return null; // Return null or handle as needed
+        }
+    }
 }
 
+// // Example usage:
+// const jsonString = `{"minRideHeight":25,"maxRideHeight":155,"rideHeightFL":75,"rideHeightFR":95,"rideHeightRL":90,"rideHeightRR":95{"minRideHeight":25,"maxRideHeight":155,"rideHeightFL":75,"rideHeightFR":95,"rideHeightRL":90,"rideHeightRR":95}`;
+// const cleanedJson = cleanUpJSON(jsonString);
+// updatetransactionLog(cleanedJson);
+
+
 // Load preferences from ESP32
-function loadPreferencesFromESP32() {
-    updatetransactionLog('Retrieving preference data [L31]')
+function init() {
+    updatetransactionLog('Get Preference data [L31]')
     BluetoothInterface.requestPreferencesFromESP32();
     // on to onBluetoothDataReceived
 }
 
 // Called when Bluetooth data is received from the ESP32
 function onBluetoothDataReceived(responseData) {
-    updatetransactionLog(responseData)
-    updatetransactionLog('Populating form fields')
+    updatetransactionLog('Retrieved Preference data [L80]')
+    updatetransactionLog('cleaning up json data')
+    const cleanedJson = cleanUpJSON(responseData);
+    updatetransactionLog('json data cleaned')
 
-    const data = JSON.parse(responseData);
+
+
+    updatetransactionLog('Populating form fields')
+    updatetransactionLog(cleanedJson)
+    
+
+    const data = JSON.parse(cleanedJson);
     
     try {
         if (data) {
@@ -85,7 +129,8 @@ function onBluetoothDataReceived(responseData) {
 
         // showAndroidToast('Loaded');
         updatetransactionLog('Form populated')
-        enableButtons();
+
+         enableButtons();
         } else {
             updatetransactionLog('No data received')
             throw new Error('No data received.');
@@ -95,60 +140,32 @@ function onBluetoothDataReceived(responseData) {
         updatetransactionLog('Error')
         updatetransactionLog('Error: ' + error.message + '\nStack: ' + error.stack + '\n\n');
 
-        enableButtons();
+         enableButtons();
     }
+    hideLoading();
 }
-
-// Function to handle response after sending data to ESP32
-// function onBluetoothInterface_valueReturnedFromSendKeyValuePair(data) {
-//     showDebugLog("Data received from ESP32!");
-//     const parsedData = JSON.parse(data);
-//     updateFormFields(parsedData);
-// }
-
-// Update form fields
-// function updateFormFields(parsedData) {
-//     // showAndroidToast(parsedData.minRideHeight);
-
-//     try {
-//         if (parsedData) {
-//             if (parsedData.minRideHeight !== undefined) {
-//                 document.getElementById('minRideHeight').value = parsedData.minRideHeight;
-//             }
-//             // Repeat for other fields...
-//         } else {
-//             throw new Error('No data received.');
-//         }
-//     } catch (error) {
-//         const errorLog = document.getElementById('error-log');
-//         errorLog.innerHTML += 'Error: ${error.message}\nStack: ${error.stack}\n\n';
-//     }
-
-//     // showAndroidToast('Done');
-// }
 
 function disableButtons() {
     updatetransactionLog('Disable buttons')
     // document.querySelectorAll('.increment-btn, .decrement-btn').forEach(function(button) {
     //     button.disabled = true;
     // });
+    hideLoading();
 }
 
 // Enable buttons after processing is complete
 function enableButtons() {
     updatetransactionLog('Renable buttons')
+    showLoading();
     // document.querySelectorAll('.increment-btn, .decrement-btn').forEach(function(button) {
         // button.disabled = false;
     // });
 }
 
-// Register the handler when the page loads
-window.onload = function() {
-    // disableButtons();
-    handleIncrementDecrementButtons();
-    updatetransactionLog('Loading preferences [L132]')
-    loadPreferencesFromESP32();
-
-    loadData();
-    
-};
+// // Register the handler when the page loads
+// window.onload = function() {
+//     // disableButtons();
+//     handleIncrementDecrementButtons();
+//     updatetransactionLog('Loading preferences [L132]')
+//     loadPreferencesFromESP32();    
+// };

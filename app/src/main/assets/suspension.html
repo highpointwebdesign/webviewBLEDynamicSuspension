@@ -44,9 +44,9 @@
 <body class="">
 
     <!-- loader -->
-   <!--  <div id="loader">
+    <div id="loader">
         <div class="spinner-border text-primary" role="status"></div>
-    </div> -->
+    </div>
     <!-- * loader -->
 
     <!-- App Header -->
@@ -71,7 +71,7 @@
                     </h2>
                     <div id="help" class="accordion-collapse collapse" data-bs-parent="#accordionHelp" style="">
                         <div class="accordion-body">
-                           Set the desired values such that the servos do not extend pass the mechanical limits of your setup. Each item below has a <i class="bi bi-question-circle"></i> you can click to see specific details about that setting. As you make changes, you should see the servo's responding in real-time. Once you are satisfied with the setting, click SAVE.
+                           Set the desired values such that the servos do not extend pass the mechanical limits of your setup. Each item below has a <i class="fa fa-question-circle-o" aria-hidden="true"></i> you can click to see specific details about that setting. As you make changes, you should see the servo's responding in real-time. Once you are satisfied with the setting, click SAVE.
                         </div>
                     </div>
                 
@@ -82,15 +82,15 @@
         <div class="section mt-3 mb-3">
             <div class="card">
                 <div class="card-body">
-                    <h2 class="card-title">Ride Height Control</h2><button type="button" class="btn btn-primary btn-sm me-1" id="loadData">Load Data</button>
+                    <h2 class="card-title">Ride Height Control</h2>
                     <p class="text">Set Suspension Travel Limits</p>
                     <div class="row">
                         <div class="col-6 text-center mb-2">
                             <!-- stepper primary -->
-                            <div class="mb-05">Min <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Lowest Ride Height" data-bs-content="This sets the end point to ensure the suspenion is not extended beyond it's mechanical limits."><i class="bi bi-question-circle"></i></span></div>
+                            <div class="mb-05">Min <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Lowest Ride Height" data-bs-content="This sets the end point to ensure the suspenion is not extended beyond it's mechanical limits."><i class="fa fa-question-circle-o" aria-hidden="true"></i></span></div>
                             <div class="stepper stepper-primary">
                                 <button class="decrement-btn stepper-button stepper-down" type="button" data-key="minRideHeight">-</button>
-                                <input type="number" class="form-control" value="0" id="minRideHeight" disabled="">
+                                <input type="number" class="form-control" value="" id="minRideHeight" disabled="">
                         <button class="increment-btn stepper-button stepper-up" type="button" data-key="minRideHeight">+</button>
                             </div>
                             <!-- * stepper primary -->
@@ -98,10 +98,10 @@
 
                         <div class="col-6 text-center mb-2">
                             <!-- stepper secondary -->
-                            <div class="mb-05">Max <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Highest Ride Height" data-bs-content="This sets the end point to ensure the suspenion is not extended beyond it's mechanical limits."><i class="bi bi-question-circle"></i></span></div>
+                            <div class="mb-05">Max <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Highest Ride Height" data-bs-content="This sets the end point to ensure the suspenion is not extended beyond it's mechanical limits."><i class="fa fa-question-circle-o" aria-hidden="true"></i></span></div>
                             <div class="stepper stepper-secondary">
                                 <button class="decrement-btn stepper-button stepper-down" type="button" data-key="maxRideHeight">-</button>
-                                        <input type="number" class="form-control" value="0" id="maxRideHeight" disabled="">
+                                        <input type="number" class="form-control" value="" id="maxRideHeight" disabled="">
                                 <button class="increment-btn stepper-button stepper-up" type="button" data-key="maxRideHeight">+</button>
                             </div>
                             <!-- * stepper secondary -->
@@ -109,10 +109,10 @@
 
                         <div class="col-6 text-center mb-2">
                             <!-- stepper success -->
-                            <div class="mb-05">Front Left <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Front Left Servo" data-bs-content="When vehicle is on level ground, adjust setting so that the front left wheels is touching the ground."><i class="bi bi-question-circle"></i></span></div>
+                            <div class="mb-05">Front Left <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Front Left Servo" data-bs-content="When vehicle is on level ground, adjust setting so that the front left wheels is touching the ground."><i class="fa fa-question-circle-o" aria-hidden="true"></i></span></div>
                             <div class="stepper stepper-success">
                                 <button class="decrement-btn stepper-button stepper-down" type="button" data-key="rideHeightFL">-</button>
-                                <input type="number" class="form-control" value="0" id="rideHeightFL" disabled="">
+                                <input type="number" class="form-control" value="" id="rideHeightFL" disabled="">
                         <button class="increment-btn stepper-button stepper-up" type="button" data-key="rideHeightFL">+</button>
                             </div>
                             <!-- * stepper success -->
@@ -120,10 +120,10 @@
 
                         <div class="col-6 text-center mb-2">
                             <!-- stepper danger -->
-                            <div class="mb-05">Front Right <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Front Right Servo" data-bs-content="When vehicle is on level ground, adjust setting so that the front right wheels is touching the ground."><i class="bi bi-question-circle"></i></span></div>
+                            <div class="mb-05">Front Right <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Front Right Servo" data-bs-content="When vehicle is on level ground, adjust setting so that the front right wheels is touching the ground."><i class="fa fa-question-circle-o" aria-hidden="true"></i></span></div>
                             <div class="stepper stepper-danger">
                                 <button class="decrement-btn stepper-button stepper-down" type="button" data-key="rideHeightFR">-</button>
-                                <input type="number" class="form-control" value="0" id="rideHeightFR" disabled="">
+                                <input type="number" class="form-control" value="" id="rideHeightFR" disabled="">
                         <button class="increment-btn stepper-button stepper-up" type="button" data-key="rideHeightFR">+</button>
                             </div>
                             <!-- * stepper danger -->
@@ -131,10 +131,10 @@
 
                         <div class="col-6 text-center mb-2">
                             <!-- stepper warning -->
-                            <div class="mb-05">Rear Left <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Rear Left Servo" data-bs-content="When vehicle is on level ground, adjust setting so that the rear left wheels is touching the ground."><i class="bi bi-question-circle"></i></span></div>
+                            <div class="mb-05">Rear Left <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Rear Left Servo" data-bs-content="When vehicle is on level ground, adjust setting so that the rear left wheels is touching the ground."><i class="fa fa-question-circle-o" aria-hidden="true"></i></span></div>
                             <div class="stepper stepper-warning">
                                 <button class="decrement-btn stepper-button stepper-down" type="button" data-key="rideHeightRL">-</button>
-                                <input type="number" class="form-control" value="0" id="rideHeightRL" disabled="">
+                                <input type="number" class="form-control" value="" id="rideHeightRL" disabled="">
                         <button class="increment-btn stepper-button stepper-up" type="button" data-key="rideHeightRL">+</button>
                             </div>
                             <!-- * stepper warning -->
@@ -142,10 +142,10 @@
 
                         <div class="col-6 text-center mb-2">
                             <!-- stepper info -->
-                            <div class="mb-05">Rear Right <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Rear Right Servo" data-bs-content="When vehicle is on level ground, adjust setting so that the rear right wheels is touching the ground."><i class="bi bi-question-circle"></i></span></div>
+                            <div class="mb-05">Rear Right <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Rear Right Servo" data-bs-content="When vehicle is on level ground, adjust setting so that the rear right wheels is touching the ground."><i class="fa fa-question-circle-o" aria-hidden="true"></i></span></div>
                             <div class="stepper stepper-info">
                                 <button class="decrement-btn stepper-button stepper-down" type="button" data-key="rideHeightRR">-</button>
-                                <input type="number" class="form-control" value="0" id="rideHeightRR" disabled="">
+                                <input type="number" class="form-control" value="" id="rideHeightRR" disabled="">
                         <button class="increment-btn stepper-button stepper-up" type="button" data-key="rideHeightRR">+</button>
                             </div>
                             <!-- * stepper info -->
@@ -158,10 +158,10 @@
 
                         <div class="col-6 text-center mb-2">
                             <!-- stepper primary -->
-                            <div class="mb-05">Balance <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Balance (Front/Back)" data-bs-content="Setting adjusts weight bias towards front or rear. A negative is biased more towards the front. 0 is balanced 50/50. A positive number is biased more towards the rear."><i class="bi bi-question-circle"></i></span></div>
+                            <div class="mb-05">Balance <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Balance (Front/Back)" data-bs-content="Setting adjusts weight bias towards front or rear. A negative is biased more towards the front. 0 is balanced 50/50. A positive number is biased more towards the rear."><i class="fa fa-question-circle-o" aria-hidden="true"></i></span></div>
                             <div class="stepper stepper-primary">
                                 <button class="decrement-btn stepper-button stepper-down" type="button" data-key="balance">-</button>
-                                <input type="number" class="form-control" value="0" id="balance" disabled="">
+                                <input type="number" class="form-control" value="" id="balance" disabled="">
                         <button class="increment-btn stepper-button stepper-up" type="button" data-key="balance">+</button>
                             </div>
                             <!-- * stepper primary -->
@@ -169,10 +169,10 @@
 
                         <div class="col-6 text-center mb-2">
                             <!-- stepper secondary -->
-                            <div class="mb-05">Decay <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Decay" data-bs-content="not sure how to describe this yet."><i class="bi bi-question-circle"></i></span></div>
+                            <div class="mb-05">Decay <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Decay" data-bs-content="not sure how to describe this yet."><i class="fa fa-question-circle-o" aria-hidden="true"></i></span></div>
                             <div class="stepper stepper-secondary">
                                 <button class="decrement-btn stepper-button stepper-down" type="button" data-key="decay">-</button>
-                                <input type="number" class="form-control" value="0" id="decay" disabled="">
+                                <input type="number" class="form-control" value="" id="decay" disabled="">
                         <button class="increment-btn stepper-button stepper-up" type="button" data-key="decay">+</button>
                             </div>
                             <!-- * stepper secondary -->
@@ -180,10 +180,10 @@
 
                         <div class="col-6 text-center mb-2">
                             <!-- stepper success -->
-                            <div class="mb-05">Speed <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Speed" data-bs-content="not sure how to describe this yet."><i class="bi bi-question-circle"></i></span></div>
+                            <div class="mb-05">Speed <span tabindex="0" class="tooltip-question" data-bs-toggle="popover" data-bs-trigger="click focus" title="Speed" data-bs-content="not sure how to describe this yet."><i class="fa fa-question-circle-o" aria-hidden="true"></i></span></div>
                             <div class="stepper stepper-success">
                                 <button class="decrement-btn stepper-button stepper-down" type="button" data-key="speed">-</button>
-                                <input type="number" class="form-control" value="0" id="speed" disabled="">
+                                <input type="number" class="form-control" value="" id="speed" disabled="">
                         <button class="increment-btn stepper-button stepper-up" type="button" data-key="speed">+</button>
                             </div>
                             <!-- * stepper success -->
@@ -251,13 +251,8 @@
     <!-- Bootstrap -->
     <script src="js/bootstrap.min.js"></script>
     <!-- Ionicons -->
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <!-- Splide -->
-    <!-- <script src="js/splide.min.js"></script> -->
-    <!-- ProgressBar js -->
-    <script src="js/progressbar.min.js"></script>
-    <!-- script for the pitch/roll gauges -->
-    <script src="js/pitchrollgauges.js"></script>
+    <!-- <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> -->
+
     <!-- Base Js File -->
     <!-- <script src="js/mk-base.js_"></script> -->
 
@@ -267,6 +262,15 @@
     <script>
         
         // document.getElementById('capsuleTitle').innerHTML = "Dashboard";
+        // Register the handler when the page loads
+        window.onload = function() {
+            showLoading();
+
+            // disableButtons();
+            handleIncrementDecrementButtons();
+            updatetransactionLog('suspenion init [L270]')
+            init();    
+        };
 
     </script>
 </body>

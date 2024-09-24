@@ -134,6 +134,24 @@
                 </div>    
             </div>
         </div> 
+
+        <div class="section inset mt-2">
+            <div class="accordion" id="transactionSection">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#transaction" aria-expanded="false">
+                            Transaction Log
+                        </button>
+                    </h2>
+                    <div id="transaction" class="accordion-collapse" data-bs-parent="#transactionSection" style="">
+                        <div class="accordion-body">
+                            <div id="transactionLog" class="transaction-container"></div>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
     </div>
     <!-- * App Capsule -->
 
@@ -169,7 +187,8 @@
     <!-- script for the pitch/roll gauges -->
     <script src="js/pitchrollgauges.js"></script>
     <script>
-        // startBluetoothDiscovery();
+        startBluetoothDiscovery();
+        
     </script>
 </body>
 </html>

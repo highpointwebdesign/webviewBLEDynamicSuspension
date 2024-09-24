@@ -118,39 +118,38 @@ class BluetoothInterface(private val context: MainActivity, private val myWebVie
         }
     }
 
-    // Request preferences from ESP32
     @JavascriptInterface
     fun requestPreferencesFromESP32() {
-        Log.d("BluetoothInterface", "Requesting preferences from ESP32")
+        Log.d("BluetoothInterface", "123 Requesting preferences from ESP32")
         if (isBluetoothConnected()) {
             try {
                 val requestData = "{\"getPreferences\": true}"
-                outputStream?.write(requestData.toByteArray())
+                outputStream?.let {
+                    it.write(requestData.toByteArray())
+                    it.flush()  // Flush to ensure all data is sent
+                    Log.d("BluetoothInterface", "130 Data flushed to outputStream")
+                }
 
                 val responseData = readInput()
                 context.runOnUiThread {
-                    Log.d("BluetoothInterface", "Sending data back to webview: $responseData")
-                    myWebView.evaluateJavascript("onBluetoothDataReceived('$responseData')", null)
-                    Log.d("BluetoothInterface", "Sent data back to webview onBluetoothDataReceived")
+                    val trimmedResponseData = responseData.trim()
+                    Log.d("BluetoothInterface", "Sending trimmed data back to webview:")
+                    Log.d("BluetoothInterface", "$trimmedResponseData")
+                    myWebView.evaluateJavascript("onBluetoothDataReceived('$trimmedResponseData')", null)
+                    Log.d("BluetoothInterface", "Sent trimmed data back to webview onBluetoothDataReceived")
                 }
+
+//                context.runOnUiThread {
+//                    Log.d("BluetoothInterface", "135 Sending data back to webview:")
+//                    Log.d("BluetoothInterface", "136 $responseData")
+//                    myWebView.evaluateJavascript("onBluetoothDataReceived('$responseData')", null)
+//                    Log.d("BluetoothInterface", "138 Sent data back to webview onBluetoothDataReceived")
+//                }
             } catch (e: IOException) {
                 Log.e("BluetoothInterface", "Failed to request preferences", e)
             }
         }
     }
-
-    // Read response from ESP32
-//    private fun readInput(): String {
-//        val inputStream = bluetoothSocket?.inputStream
-//        val buffer = ByteArray(1024)
-//        return try {
-//            val bytes = inputStream?.read(buffer) ?: 0
-//            String(buffer, 0, bytes)
-//        } catch (e: IOException) {
-//            Log.e("BluetoothInterface", "Error reading input from ESP32", e)
-//            ""
-//        }
-//    }
 
     private fun readInput(): String {
         val inputStream = bluetoothSocket?.inputStream
@@ -158,11 +157,11 @@ class BluetoothInterface(private val context: MainActivity, private val myWebVie
         return try {
             val bytes = inputStream?.read(buffer) ?: 0
             val rawData = String(buffer, 0, bytes)
-            Log.d("BluetoothInterface", "Raw data received: $rawData")
+            Log.d("BluetoothInterface", "166 Raw data received: $rawData")
             rawData
         } catch (e: IOException) {
-            Log.e("BluetoothInterface", "Error reading input from ESP32", e)
-            ""
+            Log.e("BluetoothInterface", "169 Error reading input from ESP32", e)
+            "error"
         }
     }
 

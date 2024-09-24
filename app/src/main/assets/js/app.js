@@ -290,6 +290,15 @@ function showAndroidToast(message) {
     BluetoothInterface.showToast(message);
 }
 
+function showLoading() {
+    document.getElementById('loader').style.display = 'flex';
+}
+
+function hideLoading() {
+    document.getElementById('loader').style.display = 'none';
+}
+
+
 // Array to store the last 10 changes
 let transactionLog = [];
 
