@@ -283,7 +283,9 @@ function resetPhysicalGyro() {
 }
 
 function init(){
+    showLoading();
     updateHostDetails();
+    hideLoading();
 }
 
 function showAndroidToast(message) {
@@ -292,10 +294,12 @@ function showAndroidToast(message) {
 
 function showLoading() {
     document.getElementById('loader').style.display = 'flex';
+    updatetransactionLog('showLoading')
 }
 
 function hideLoading() {
     document.getElementById('loader').style.display = 'none';
+    updatetransactionLog('hideLoading')
 }
 
 

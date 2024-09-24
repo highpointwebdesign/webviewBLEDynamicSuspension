@@ -73,8 +73,14 @@ function cleanUpJSON(jsonString) {
 
 // Load preferences from ESP32
 function init() {
-    updatetransactionLog('Get Preference data [L31]')
-    BluetoothInterface.requestPreferencesFromESP32();
+    try {
+        updatetransactionLog('Get Preference data [L31]')
+        BluetoothInterface.requestPreferencesFromESP32();
+    } catch (error) {
+        updatetransactionLog('Error')
+        updatetransactionLog('Error: ' + error.message + '\nStack: ' + error.stack + '\n\n');
+    }
+    hideLoading();    
     // on to onBluetoothDataReceived
 }
 
@@ -85,12 +91,9 @@ function onBluetoothDataReceived(responseData) {
     const cleanedJson = cleanUpJSON(responseData);
     updatetransactionLog('json data cleaned')
 
-
-
     updatetransactionLog('Populating form fields')
     updatetransactionLog(cleanedJson)
     
-
     const data = JSON.parse(cleanedJson);
     
     try {

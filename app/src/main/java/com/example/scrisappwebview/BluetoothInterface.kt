@@ -138,13 +138,6 @@ class BluetoothInterface(private val context: MainActivity, private val myWebVie
                     myWebView.evaluateJavascript("onBluetoothDataReceived('$trimmedResponseData')", null)
                     Log.d("BluetoothInterface", "Sent trimmed data back to webview onBluetoothDataReceived")
                 }
-
-//                context.runOnUiThread {
-//                    Log.d("BluetoothInterface", "135 Sending data back to webview:")
-//                    Log.d("BluetoothInterface", "136 $responseData")
-//                    myWebView.evaluateJavascript("onBluetoothDataReceived('$responseData')", null)
-//                    Log.d("BluetoothInterface", "138 Sent data back to webview onBluetoothDataReceived")
-//                }
             } catch (e: IOException) {
                 Log.e("BluetoothInterface", "Failed to request preferences", e)
             }

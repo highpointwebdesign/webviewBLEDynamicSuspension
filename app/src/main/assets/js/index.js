@@ -3,8 +3,14 @@ function startBluetoothDiscovery() {
     
     //  document.getElementById("deviceListContainer").classList.remove("hide");
     //  document.getElementById("deviceList").innerHTML = ""
-    BluetoothInterface.startDeviceDiscovery();
-    updatetransactionLog('startBluetoothDiscovery');
+    try {
+        BluetoothInterface.startDeviceDiscovery();
+        updatetransactionLog('startBluetoothDiscovery');
+    } catch (error) {
+        updatetransactionLog('Error')
+        updatetransactionLog('Error: ' + error.message + '\nStack: ' + error.stack + '\n\n');
+    }
+    hideLoading();
 }
 
 function handleDiscoveredDevices(devicesJson) {
