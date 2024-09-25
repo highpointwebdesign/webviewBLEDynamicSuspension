@@ -10,7 +10,7 @@ function updateRoll() {
   const circle = document.getElementById('roll-circle');
   if (circle) {
     const adjustedRoll = roll - rollHome; // Adjust roll by home position
-    circle.style.transform = `rotate(${adjustedRoll}deg)`;
+    circle.style.transform = `rotate(${-adjustedRoll}deg)`;
     document.getElementById('roll-degree').innerText = `${Math.abs(adjustedRoll).toFixed(1)}°`;
   }
 }

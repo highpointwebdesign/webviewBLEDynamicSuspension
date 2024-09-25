@@ -38,9 +38,9 @@
 <body class="">
 
     <!-- loader -->
-   <!--  <div id="loader">
+    <div id="loader">
         <div class="spinner-border text-primary" role="status"></div>
-    </div> -->
+    </div>
     <!-- * loader -->
 
     <!-- App Header -->
@@ -111,21 +111,47 @@
                 <!-- <img src="images/3qtr-Chassis-suspension.jpg" class="card-img-top" alt="image"> -->
                 <div class="card-body">
                     <!-- <h6 class="card-subtitle">Ride Height</h6> -->
-                    <h2 class="card-title">Bluetooth Devices</h2>                                        
-                    <div class="row">
-                         <div class="col-12 text-center mb-2">
-                            <button class="btn btn-primary btn-block" type="button" onclick="startBluetoothDiscovery()">Search</button>
+                    <h2 class="card-title">Discovered Devices</h2>                                        
+                    <div class="container my-4" id="deviceListContainer">
+                        <div class="d-grid gap-2">
+                            <div id="deviceList" class="placeholder-glow">
+                                <div class="wide-block pt-2 pb-2 placeholder-glow">
+                                    <span class="placeholder col-5"></span>
+                                    <span class="placeholder col-6"></span>
+                                    <span class="placeholder col-8"></span>
+                                    <span class="placeholder col-3"></span>
+                                </div>
+                                <!-- <div><i class="fa-solid fa-hourglass-half"></i> Searching...</div> -->
+                            </div>
                         </div>
                     </div>
-                    <div class="container my-4 hide" id="deviceListContainer">
-                        <div class="d-grid gap-2">
-                            <ul id="deviceList" class="listview simple-listview"><li><i class="fa-solid fa-hourglass-half"></i> Searching</li></ul>
+                    <div class="row">
+                         <div class="col-12 text-center mb-2">
+                            <button class="btn btn-primary btn-block" type="button" onclick="startBluetoothDiscovery()">Search Again</button>
                         </div>
                     </div>
 
                 </div>    
             </div>
         </div> 
+
+        <div class="section inset mt-2">
+            <div class="accordion" id="transactionSection">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#transaction" aria-expanded="false">
+                            Transaction Log
+                        </button>
+                    </h2>
+                    <div id="transaction" class="accordion-collapse" data-bs-parent="#transactionSection" style="">
+                        <div class="accordion-body">
+                            <ul id="transactionLog" class="transaction-container"></ul>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
     </div>
     <!-- * App Capsule -->
 
@@ -151,7 +177,7 @@
     <!-- Ionicons -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <!-- Splide -->
-    <script src="js/splide.min.js"></script>
+    <!-- <script src="js/splide.min.js"></script> -->
     <!-- ProgressBar js -->
     <!-- <script src="js/progressbar.min.js"></script> -->
     <!-- Base Js File -->
@@ -162,6 +188,7 @@
     <script src="js/pitchrollgauges.js"></script>
     <script>
         startBluetoothDiscovery();
+
     </script>
 </body>
 </html>
