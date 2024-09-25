@@ -79,8 +79,14 @@ class BluetoothInterface(private val context: MainActivity, private val myWebVie
 
     // Add discovered device and send to WebView
     fun addDiscoveredDevice(device: BluetoothDevice) {
-        discoveredDevices.add(device)
-        sendDiscoveredDevicesToWebView()
+        if (!discoveredDevices.any { it.address == device.address }) {
+            discoveredDevices.add(device)
+            sendDiscoveredDevicesToWebView()
+        } else {
+            // Optionally log or handle already discovered devices
+            //  Log.d("BluetoothInterface", "Device already discovered: ${device.name} - ${device.address}")
+        }
+
     }
 
     private fun sendDiscoveredDevicesToWebView() {

@@ -61,24 +61,6 @@
             <h1 class="title">Suspension</h1>
         </div>
 
-        <div class="section inset mt-2">
-            <div class="accordion" id="accordionHelp">
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#help" aria-expanded="false">
-                            Help
-                        </button>
-                    </h2>
-                    <div id="help" class="accordion-collapse collapse" data-bs-parent="#accordionHelp" style="">
-                        <div class="accordion-body">
-                           Set the desired values such that the servos do not extend pass the mechanical limits of your setup. Each item below has a <i class="fa fa-question-circle-o" aria-hidden="true"></i> you can click to see specific details about that setting. As you make changes, you should see the servo's responding in real-time. Once you are satisfied with the setting, click SAVE.
-                        </div>
-                    </div>
-                
-                </div>
-            </div>
-        </div>
-
         <div class="section mt-3 mb-3">
             <div class="card">
                 <div class="card-body">
@@ -106,6 +88,11 @@
                             </div>
                             <!-- * stepper secondary -->
                         </div>
+                    </div>
+
+                    <h2 class="card-title">Servo Control</h2>
+                    <p class="text">Set Servo Trim</p>
+                    <div class="row">
 
                         <div class="col-6 text-center mb-2">
                             <!-- stepper success -->
@@ -199,6 +186,24 @@
             </div>
         </div>
 
+         <div class="section inset mt-2">
+            <div class="accordion" id="accordionHelp">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#help" aria-expanded="false">
+                            Help
+                        </button>
+                    </h2>
+                    <div id="help" class="accordion-collapse collapse" data-bs-parent="#accordionHelp" style="">
+                        <div class="accordion-body">
+                           Set the desired values such that the servos do not extend pass the mechanical limits of your setup. Each item below has a <i class="fa fa-question-circle-o" aria-hidden="true"></i> you can click to see specific details about that setting. As you make changes, you should see the servo's responding in real-time. Once you are satisfied with the setting, click SAVE.
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+
         <div class="section inset mt-2">
             <div class="accordion" id="transactionSection">
                 <div class="accordion-item">
@@ -264,12 +269,11 @@
         // document.getElementById('capsuleTitle').innerHTML = "Dashboard";
         // Register the handler when the page loads
         window.onload = function() {
-            showLoading();
-
-            // disableButtons();
-            handleIncrementDecrementButtons();
-            updatetransactionLog('suspenion init [L270]')
-            init();    
+            // showLoading();
+            // handleIncrementDecrementButtons();
+            // updatetransactionLog('suspenion init [L270]')
+            initPage();  
+            // hideLoading();  
         };
 
     </script>
